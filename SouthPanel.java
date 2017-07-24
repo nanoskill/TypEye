@@ -1,31 +1,25 @@
 package classDivided;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class SouthPanel extends JPanel
 {
-	private JLabel statusBar;
+	private StatusBar statusBar;
 	
-	public JLabel getStatusBar()
+
+	public SouthPanel()
+	{
+	}
+	
+	public StatusBar getStatusBar()
 	{
 		return statusBar;
 	}
 
-	public void setStatusBar(JLabel statusBar)
+	public void setStatusBar(StatusBar statusBar)
 	{
 		this.statusBar = statusBar;
-	}
-
-	public SouthPanel()
-	{
-		statusBar = new JLabel("-Status Bar-");
-		statusBar.setHorizontalAlignment(JLabel.CENTER);
 		add(statusBar);
 	}
 	
-	public void updateStatus(int correct, int mistakes)
-	{
-		statusBar.setText("Correct : " + correct + " | Mistakes: " + mistakes);
-	}
 }

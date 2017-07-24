@@ -11,6 +11,13 @@ public class NorthPanel extends JPanel
 {
 	TimeDisplay timer;
 	
+	public NorthPanel()
+	{
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(800, 40));
+		add(new JLabel("Logo"), BorderLayout.WEST);
+	}
+	
 	public TimeDisplay getTimer()
 	{
 		return timer;
@@ -19,15 +26,7 @@ public class NorthPanel extends JPanel
 	public void setTimer(TimeDisplay timer)
 	{
 		this.timer = timer;
+		add(timer, BorderLayout.WEST);
 	}
 
-	public NorthPanel()
-	{
-		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(800, 40));
-		add(new JLabel("Logo"), BorderLayout.WEST);
-		timer = new TimeDisplay();
-		timer.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-		add(timer, BorderLayout.EAST);
-	}
 }

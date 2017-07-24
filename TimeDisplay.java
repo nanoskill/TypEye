@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -16,6 +17,7 @@ public class TimeDisplay extends JPanel
 	public TimeDisplay()
 	{
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 		timeLbl = new JLabel();
 		timeLbl.setFont(new Font("SansSerif", Font.BOLD, 18));
 		timeFormat = new SimpleDateFormat("mm:ss");
