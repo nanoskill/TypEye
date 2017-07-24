@@ -2,14 +2,11 @@ package classDivided;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class TimeDisplay extends JPanel
 {

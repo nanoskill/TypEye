@@ -8,7 +8,6 @@ import javax.swing.JTextPane;
 
 public class ScriptPane extends JTextPane
 {
-	
 	private String[] textBank;
 	private int currWordIdx, currLineLen;
 	private String doneWord, onWord, restWord;
