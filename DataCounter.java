@@ -25,7 +25,7 @@ public class DataCounter
 		Data temp = new Data((currNanotime-prevNanotime)/1000000, currWord, currText, event);
 		datas.add(temp);
 		prevNanotime = currNanotime;
-		if(event.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
+		if(isInputtable(event))
 		{
 			if(temp.isCorrect())
 				corrects++;
@@ -33,6 +33,13 @@ public class DataCounter
 				mistakes++;
 		}
 		return temp;
+	}
+	
+	public static boolean isInputtable(KeyEvent e)
+	{
+		int temp = e.getKeyChar();
+		if(temp < 33 || temp > 126) return false;
+		return true;
 	}
 	
 	public void showData()

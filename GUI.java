@@ -68,29 +68,29 @@ public class GUI extends JFrame
 			}
 			
 			
-			String text = "";
-			if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
-				text = cPanel.getInput().getText() + e.getKeyChar();
-			else
-				text = cPanel.getInput().getText();
+			String text = cPanel.getInput().getText();
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length()>0)
+				text = text.substring(0, cPanel.getInput().getText().length()-1);
+			else if(DataCounter.isInputtable(e))
+				text = text + e.getKeyChar();
+			
    			String currWord = cPanel.getPane().getCurrentWord();
 			
 			//System.out.println("kP: " + currWord +" "+ text +" "+ e.getKeyChar());
 			
 			Data temp = null;
 			
-			if(e.getKeyCode() != KeyEvent.VK_BACK_SPACE)
-			{			
+			
+			if(!cPanel.getPane().isEmptyWord())
+			{
 				temp = counter.addData(currWord, text, e);
-				if(!cPanel.getPane().isEmptyWord())
-				{
-					cPanel.getPane().buildOnWord(text);
-					cPanel.getPane().updateText();
-				}
+				cPanel.getPane().buildOnWord(text);
+				cPanel.getPane().updateText();
 			}
 	   		
 	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
-	   		{	   				   			
+	   		{	   			
+	   			e.consume();
 	   			if(cPanel.getPane().isEmptyWord())
 	   			{
 	   				terminateTest();
@@ -102,10 +102,11 @@ public class GUI extends JFrame
 	   				for(int i=text.length();i<currWord.length();i++)
 	   					counter.addData(currWord, text, e);
 	   			}
-   				cPanel.getPane().nextWord(temp.isCorrect());
+   				cPanel.getPane().nextWord(temp.isWordCorrect());
 	   			cPanel.getInput().setText("");
 	 		}
 
+   			System.out.println(temp.printData());
 			sPanel.updateStatus(counter.getCorrects(), counter.getMistakes());
 	   	}
 	};

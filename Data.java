@@ -17,12 +17,22 @@ public class Data
 		this.currWord = currWord;
 		this.currText = currText;
 		
-		int lenUser = currText.length();
-		int lenWord = currWord.length();
-		if(lenUser <= lenWord && lenUser!=0)
-			masterChar = currWord.charAt(lenUser-1);
-		else
+		//decide masterchar
+		if(currText.length() > currWord.length())
+		{
 			masterChar = ' ';
+		}
+		else
+		{
+			int i;
+			for(i=currText.length()-1;i>0;i--)
+				if(currWord.startsWith(currText.substring(0, i)))
+				{
+					masterChar = currWord.charAt(i);
+					break;
+				}
+			if(i==0) masterChar = currWord.charAt(i);
+		}
 		
 		userKey = event;
 	}
@@ -41,7 +51,10 @@ public class Data
 	{
 		return masterChar == userKey.getKeyChar();
 	}
-	
+	public boolean isWordCorrect()
+	{
+		return currWord.equals(currText);
+	}
 	public String printData()
 	{
 		String temp = KeyEvent.getKeyText(userKey.getKeyCode());
