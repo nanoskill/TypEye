@@ -9,7 +9,7 @@ public class Data
 	private String currText;
 	
 	private char masterChar;
-	private char userChar;
+	private KeyEvent userKey;
 
 	public Data(long delay, String currWord, String currText, KeyEvent event)
 	{
@@ -24,7 +24,7 @@ public class Data
 		else
 			masterChar = ' ';
 		
-		userChar = event.getKeyChar();
+		userKey = event;
 	}
 
 	public long getDelay()
@@ -39,11 +39,13 @@ public class Data
 
 	public boolean isCorrect()
 	{
-		return masterChar == userChar;
+		return masterChar == userKey.getKeyChar();
 	}
 	
 	public String printData()
 	{
-		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + userChar);
+		String temp = KeyEvent.getKeyText(userKey.getKeyCode());
+		
+		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp);
 	}
 }

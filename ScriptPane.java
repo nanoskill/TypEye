@@ -41,9 +41,9 @@ public class ScriptPane extends JTextPane
 		return textBank[currWordIdx];
 	}
 	
-	public void nextWord(String inp)
+	public void nextWord(boolean correct)
 	{
-		buildDoneWord(inp);
+		buildDoneWord(correct);
 		if(currLineLen + textBank[currWordIdx].length() > topLineLen)
 		{
 			currLineLen = 0;
@@ -70,9 +70,9 @@ public class ScriptPane extends JTextPane
 		setText("<font style='font-size:14px'>" + inp + "</font");
 	}
 	
-	public void buildDoneWord(String inp)
+	public void buildDoneWord(boolean correct)
 	{
-		if(inp.equals(textBank[currWordIdx]))
+		if(correct)
 			doneWord += "<font style='color:green;'>" + textBank[currWordIdx] + "</font>&nbsp;";
 		else
 			doneWord += "<font style='color:red;'>" + textBank[currWordIdx] + "</font>&nbsp;";

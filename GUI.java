@@ -37,7 +37,6 @@ public class GUI extends JFrame
 		add(sPanel, BorderLayout.SOUTH);
 		
 		cPanel.getInput().addKeyListener(spaceStroke);
-		cPanel.getInput().addKeyListener(colorUpdate);
 	}
 	
 	private ActionListener timerFunc = new ActionListener()
@@ -54,75 +53,61 @@ public class GUI extends JFrame
 	
 	private KeyAdapter spaceStroke = new KeyAdapter()
 	{
-	   	public void keyTyped(KeyEvent e)
+		public void keyTyped(KeyEvent e)
+		{	   		
+	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
+	   			e.consume();
+		}
+	   	public void keyPressed(KeyEvent e)
 	   	{
-	   		System.out.println("kAT: " + cPanel.getPane().getCurrentWord() +" "+ cPanel.getInput().getText() +" "+ e.getKeyChar());
-			
 			if(counter == null)
 			{
 				counter = new DataCounter(TIME);
 				timer.start();
-				nPanel.getTimer().updateTime(new Date(TIME*1000));
+				nPanel.getTimer().updateTime(new Date(TIME*1000));	
+			}
+			
+			
+			String text = "";
+			if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
+				text = cPanel.getInput().getText() + e.getKeyChar();
+			else
+				text = cPanel.getInput().getText();
+   			String currWord = cPanel.getPane().getCurrentWord();
+			
+			//System.out.println("kP: " + currWord +" "+ text +" "+ e.getKeyChar());
+			
+			Data temp = null;
+			
+			if(e.getKeyCode() != KeyEvent.VK_BACK_SPACE)
+			{			
+				temp = counter.addData(currWord, text, e);
+				if(!cPanel.getPane().isEmptyWord())
+				{
+					cPanel.getPane().buildOnWord(text);
+					cPanel.getPane().updateText();
+				}
 			}
 	   		
 	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
-	   		{
-	   			e.consume();
-	   			String text = cPanel.getInput().getText();
-	   			String currWord = cPanel.getPane().getCurrentWord();
-	   				   			
+	   		{	   				   			
 	   			if(cPanel.getPane().isEmptyWord())
 	   			{
 	   				terminateTest();
 	   				return;
 	   			}
-	   			/*
-	   			while(text.length() > currWord.length())
-	   			{
-		   			counter.addData(currWord, text);
-		   			text = text.substring(0, text.length()-1);
-	   			}
+	   			
 	   			if(text.length() < currWord.length())
 	   			{
 	   				for(int i=text.length();i<currWord.length();i++)
-	   					counter.addData(currWord, text);
-	   			}*/
-   				cPanel.getPane().nextWord(text);
+	   					counter.addData(currWord, text, e);
+	   			}
+   				cPanel.getPane().nextWord(temp.isCorrect());
 	   			cPanel.getInput().setText("");
-	   			
 	 		}
+
+			sPanel.updateStatus(counter.getCorrects(), counter.getMistakes());
 	   	}
-	};
-	
-	private KeyListener colorUpdate = new KeyListener()
-	{
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			System.out.println("kP: " + cPanel.getPane().getCurrentWord() +" "+ cPanel.getInput().getText() +" "+ e.getKeyChar());
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			if(e.getKeyCode() != KeyEvent.VK_BACK_SPACE)
-			{	 
-				if(!cPanel.getPane().isEmptyWord())
-				{
-					cPanel.getPane().buildOnWord(cPanel.getInput().getText());
-					cPanel.getPane().updateText();
-				}
-				counter.addData(cPanel.getPane().getCurrentWord(), cPanel.getInput().getText(), e);
-				sPanel.updateStatus(counter.getCorrects(), counter.getMistakes());
-			}
-			System.out.println("kR: " + cPanel.getPane().getCurrentWord() +" "+ cPanel.getInput().getText() +" "+ e.getKeyChar());
-   		}
-
-		@Override
-		public void keyTyped(KeyEvent e)
-		{
-			System.out.println("kT: " + cPanel.getPane().getCurrentWord() +" "+ cPanel.getInput().getText() +" "+ e.getKeyChar());
-		}
 	};
 	
 	private void terminateTest()

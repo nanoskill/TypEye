@@ -19,7 +19,7 @@ public class DataCounter
 		setMistakes(0);
 	}
 	
-	public void addData(String currWord, String currText, KeyEvent event)
+	public Data addData(String currWord, String currText, KeyEvent event)
 	{
 		long currNanotime = System.nanoTime();
 		Data temp = new Data((currNanotime-prevNanotime)/1000000, currWord, currText, event);
@@ -32,6 +32,7 @@ public class DataCounter
 			else
 				mistakes++;
 		}
+		return temp;
 	}
 	
 	public void showData()
