@@ -24,7 +24,7 @@ public class GUI extends JFrame
 	private Timer timer;
 	
 	private final int TIME = 12;
-	
+		
 	public GUI()
 	{
 		timer = new Timer(1000, timerFunc);
@@ -106,7 +106,7 @@ public class GUI extends JFrame
 	   			cPanel.getInput().setText("");
 	 		}
 
-   			System.out.println(temp.printData());
+   			//System.out.println(temp.printData());
 			sPanel.updateStatus(counter.getCorrects(), counter.getMistakes());
 	   	}
 	};

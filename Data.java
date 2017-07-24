@@ -49,7 +49,10 @@ public class Data
 
 	public boolean isCorrect()
 	{
-		return masterChar == userKey.getKeyChar();
+		if(userKey.getKeyCode() == KeyEvent.VK_SPACE)
+			return isWordCorrect();
+		
+		return (masterChar == userKey.getKeyChar() && currWord.startsWith(currText));
 	}
 	public boolean isWordCorrect()
 	{
@@ -59,6 +62,6 @@ public class Data
 	{
 		String temp = KeyEvent.getKeyText(userKey.getKeyCode());
 		
-		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp);
+		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp + " " + isCorrect());
 	}
 }

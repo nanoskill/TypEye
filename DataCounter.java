@@ -25,7 +25,7 @@ public class DataCounter
 		Data temp = new Data((currNanotime-prevNanotime)/1000000, currWord, currText, event);
 		datas.add(temp);
 		prevNanotime = currNanotime;
-		if(isInputtable(event))
+		if(isInputtable(event) || event.getKeyCode() == KeyEvent.VK_SPACE)
 		{
 			if(temp.isCorrect())
 				corrects++;
@@ -44,10 +44,13 @@ public class DataCounter
 	
 	public void showData()
 	{
+		int temp = 0;
 		for(int i=0;i<datas.size();i++)
 		{
 			System.out.println(i + " " + datas.elementAt(i).printData());
+			temp += datas.elementAt(i).getDelay();
 		}
+		System.out.println("Total time elapsed: " + temp);
 	}
 
 	public int getSeconds()
