@@ -1,0 +1,217 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.ParagraphView;
+
+public class GUI extends JFrame
+{
+	private JPanel northPnl;
+	
+	private JPanel centerPnl;
+	
+	private JPanel southPnl;
+	private JLabel southLbl;
+	
+	private JTextField textfield;
+	
+	private Integer correct = 0;
+	private Integer mistake = 0;
+	private Integer cnt = 0;
+	
+	private String[] textBank;
+	
+	private JTextPane textpane;
+	
+	
+	public GUI()
+	{		
+		String text = "";
+		try
+		{
+			text = readTxt("E:/pembukaanuud.txt");
+			textBank = text.split(" ");
+			System.out.println(textBank.length);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		setLayout(new BorderLayout());
+		
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
+		
+		northPnl = new JPanel();
+		northPnl.setBorder(border);
+		add(northPnl, BorderLayout.NORTH);
+		
+		northPnl.setLayout(new GridLayout(1,2));
+		northPnl.add(new JLabel("logo"));
+		northPnl.add(new JLabel(""));
+		JLabel time = new JLabel("time");
+		time.setHorizontalAlignment(JLabel.RIGHT);
+		northPnl.add(time);
+		
+		/*BufferedImage myPicture;
+		JLabel picLabel;
+		try
+		{
+			myPicture = ImageIO.read(new File("E:/clue.png"));
+			picLabel = new JLabel(new ImageIcon(myPicture));
+			northPnl.add(picLabel);
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}*/
+		
+		
+		centerPnl = new JPanel();
+		centerPnl.setBorder(border);
+		centerPnl.setLayout(new FlowLayout());
+	
+		
+		textpane = new JTextPane();
+		textpane.setFont(new Font("Serif", Font.PLAIN, 14));
+		textpane.setForeground(Color.RED);
+		textpane.setPreferredSize(new Dimension(700,100));
+		textpane.setEditable(false);
+		textpane.setContentType("text/html");
+		
+		JPanel jp = new JPanel();
+		jp.setLayout(new BorderLayout());
+		jp.add(textpane);
+		JScrollPane jsp = new JScrollPane();
+		jsp.add(jp);
+		jsp.setViewportView(textpane);
+		centerPnl.add(jsp);
+		
+		
+		textfield = new JTextField(20);
+		textfield.setFont(new Font("Serif", Font.PLAIN, 22));
+		centerPnl.add(textfield);
+		
+		textfield.addKeyListener(spaceStroke);
+		textfield.addKeyListener(colorUpdate);
+		
+		add(centerPnl, BorderLayout.CENTER);
+		
+		southPnl = new JPanel();
+		southPnl.setBorder(border);
+		
+		southLbl = new JLabel("SOUTH");
+		southLbl.setHorizontalAlignment(JLabel.CENTER);
+		southLbl.setVerticalAlignment(JLabel.CENTER);
+		southPnl.add(southLbl);
+		add(southPnl, BorderLayout.SOUTH);
+		
+		
+	}
+	
+	KeyAdapter spaceStroke = new KeyAdapter()
+	{
+	   	public void keyTyped(KeyEvent e)
+	   	{
+	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
+	   		{
+	   			e.consume();
+	   			if(textfield.getText().equals(textBank[cnt++]))
+					correct++;
+	   			else
+	   				mistake++;
+	   			southLbl.setText(System.nanoTime() + "Correct: " + correct + " | Mistake: " + mistake);
+	   			removeWord();
+				textfield.setText("");
+	 		}
+	   	}
+	};
+	
+	KeyListener colorUpdate = new KeyListener()
+	{
+
+		@Override
+		public void keyPressed(KeyEvent arg0)
+		{
+								
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0)
+		{
+			boolean correctTyped = textBank[cnt].startsWith(textfield.getText());
+	   		updatePane(correctTyped);			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+	};
+	
+	void updatePane(boolean correct)
+	{
+		StringBuilder temp = new StringBuilder();
+		if(!correct)
+			temp.append("<font color='red'>" + textBank[cnt] + "</font>" + "&nbsp;");
+		else if(textfield.getText().equals(textBank[cnt]))
+			temp.append("<font color='green'>" + textBank[cnt] + "</font>" + "&nbsp;");
+		else
+			temp.append(textBank[cnt] + "&nbsp;");
+		
+		for(int i=cnt+1; i<cnt+13;i++)
+			temp.append(textBank[i] + "&nbsp;");
+
+		insertToPane(temp.toString());
+	}
+	
+	void removeWord()
+	{
+		StringBuilder temp = new StringBuilder();
+		for(int i=cnt; i<cnt+13;i++)
+		{
+			temp.append(textBank[i] + "&nbsp;");
+		}
+		
+		insertToPane(temp.toString());
+	}
+	
+	void insertToPane(String inp)
+	{
+		textpane.setText(String.format("<div style='font-size:16px;'>%s</div>", inp));
+	}
+	
+	private String readTxt(String pathname) throws IOException {
+
+	    File file = new File(pathname);
+	    StringBuilder fileContents = new StringBuilder((int)file.length());
+	    Scanner scanner = new Scanner(file);
+
+	    try {
+	        while(scanner.hasNextLine()) {
+	            fileContents.append(scanner.nextLine() + " ");
+	        }
+	        return fileContents.toString();
+	    } finally {
+	        scanner.close();
+	    }
+	}
+	
+	public static void main(String[] args)
+	{
+		GUI gui = new GUI();
+		gui.setTitle("Title");
+		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui.setVisible(true);
+		gui.setSize(800,400);
+	}
+}
