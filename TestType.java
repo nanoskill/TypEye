@@ -1,4 +1,4 @@
-package classDivided;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +34,6 @@ public class TestType
 		{
 			e.printStackTrace();
 		}
-		
 		//input
 		input = new InputArea();
 		input.addKeyListener(spaceStroke);
@@ -75,7 +74,7 @@ public class TestType
 			{
 				counter = new DataCounter(TIME);
 				timer.start();
-				timeDisplay.updateTime(new Date(TIME*1000));	
+				timeDisplay.updateTime(new Date(TIME*1000));
 			}
 			
 			String text = input.getText();

@@ -1,4 +1,4 @@
-package classDivided;
+
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -23,12 +23,14 @@ public class GUI extends JFrame
 		sPanel = new SouthPanel();
 		add(nPanel, BorderLayout.NORTH);
 		add(cPanel, BorderLayout.CENTER);
+		//LoginPage a = new LoginPage();
+		//add(a, BorderLayout.CENTER);
 		add(sPanel, BorderLayout.SOUTH);
 		
-		startTest();
+		initiateTest();
 	}
 	
-	public void startTest()
+	public void initiateTest()
 	{
 		typingTest = new TestType();
 		nPanel.setTimer(typingTest.getTimeDisplay());
@@ -46,12 +48,13 @@ public class GUI extends JFrame
 		gui.setSize(800,600);
 		
 		gui.addWindowListener( new WindowAdapter()
+		{
+			public void windowOpened( WindowEvent e )
 			{
-				public void windowOpened( WindowEvent e ){
-			        gui.cPanel.getInput().requestFocus();
-			    }
+		        if(gui.cPanel.getInput() != null)
+		        	gui.cPanel.getInput().requestFocus();
 			}
-		);
+		});
 	}
 
 }

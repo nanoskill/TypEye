@@ -1,4 +1,4 @@
-package classDivided;
+
 
 import javax.swing.JLabel;
 
@@ -6,7 +6,7 @@ public class StatusBar extends JLabel
 {
 	public StatusBar(String inp)
 	{
-		super("inp");
+		super(inp);
 		setHorizontalAlignment(JLabel.CENTER);
 	}
 	public void updateStatus(int correct, int mistakes)

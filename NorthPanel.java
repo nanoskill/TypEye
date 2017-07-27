@@ -1,9 +1,8 @@
-package classDivided;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,7 +25,7 @@ public class NorthPanel extends JPanel
 	public void setTimer(TimeDisplay timer)
 	{
 		this.timer = timer;
-		add(timer, BorderLayout.WEST);
+		add(timer, BorderLayout.EAST);
 	}
 
 }
