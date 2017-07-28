@@ -64,4 +64,13 @@ public class Data
 		
 		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp + " " + isCorrect());
 	}
+	public String queryData()
+	{
+		String temp = KeyEvent.getKeyText(userKey.getKeyCode());
+		
+		
+		return (String)("(" + delay + ",\"" + currWord  + "\",\"" + currText  + "\",\"" + masterChar + "\",\"" + temp + "\"," + isCorrect()+")");
+
+		
+	}
 }

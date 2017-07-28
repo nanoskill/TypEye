@@ -1,6 +1,11 @@
 
 
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 public class DataCounter
@@ -51,6 +56,34 @@ public class DataCounter
 			temp += datas.elementAt(i).getDelay();
 		}
 		System.out.println("Total time elapsed: " + temp);
+	}
+	
+	public void storeData()
+	{
+		MysqlConnect db = new MysqlConnect();
+		Connection conn = null;
+		try {
+			conn = db.connect();
+			StringBuilder query = new StringBuilder();
+			query.append("INSERT INTO rawdata (delay, currword, currtext, masterchar, userchar, correct) VALUES ");
+			
+			for(int i=0;i<datas.size();i++)
+			{
+				query.append(datas.elementAt(i).queryData());
+				if(i != datas.size()-1)
+					query.append(",");
+			}
+			Statement stmt = conn.createStatement();
+			System.out.println("Statement " + query.toString());
+			stmt.executeUpdate(query.toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			db.disconnect();			
+		}
 	}
 
 	public int getSeconds()

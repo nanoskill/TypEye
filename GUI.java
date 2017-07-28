@@ -13,11 +13,9 @@ public class GUI extends JFrame
 	private SouthPanel sPanel;
 	
 	private TestType typingTest;
-		
 	public GUI()
 	{
 		typingTest = new TestType();
-		setLayout(new BorderLayout());
 		nPanel = new NorthPanel();
 		cPanel = new CenterPanel();
 		sPanel = new SouthPanel();

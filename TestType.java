@@ -124,6 +124,7 @@ public class TestType
 		input.setEnabled(false);
 		timer.stop();
 		counter.showData();
+		counter.storeData();
 		System.out.println("WPM: " + ((counter.getCorrects() - counter.getMistakes())));
 	}
 	
