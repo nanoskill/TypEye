@@ -1,24 +1,20 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
-import com.mysql.jdbc.Statement;
 
-public class MysqlConnect {
-    // init database constants
+public class MysqlMgr {
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/typeye";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
 
-    // init connection object
     private Connection connection;
-    // init properties object
     private Properties properties;
+    private Statement statement;
 
-    // create properties
     private Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
@@ -28,7 +24,6 @@ public class MysqlConnect {
         return properties;
     }
 
-    // connect database
     public Connection connect() {
         if (connection == null) {
             try {
@@ -41,7 +36,6 @@ public class MysqlConnect {
         return connection;
     }
 
-    // disconnect database
     public void disconnect() {
         if (connection != null) {
             try {
@@ -53,39 +47,30 @@ public class MysqlConnect {
             }
         }
     }
-
     
-    /*public static void queryUser(String user) throws SQLException
-    {
-    	PreparedStatement ps = null;
-	    String query = "CREATE TABLE `users` (" +
-	    		"`dataid` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ," + 
-	    		"`date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ," + 
-	    		"`name` VARCHAR(20) NOT NULL ," +
-	    		"`id` VARCHAR(10) NOT NULL ," +
-	    		"PRIMARY KEY (`dataid`(10)))";
-	    try
-	    {
-	    	ps = connection.
-	    	ps.execute();
-	
-	    } catch (SQLException e )
-	    {
-	        e.printStackTrace();
-	    } finally{
-	        if (ps != null) { ps.close(); }
-	    }
-    }*/
-    /*
-    public void query()
-    {
-    	Statement stmt = null;
-    	stmt.exec
-    	try {
-			connection.nativeSQL(createtable);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }*/
+    public ResultSet query(String query) throws SQLException{
+        statement = connection.createStatement();
+        ResultSet res = statement.executeQuery(query);
+        return res;
+    }
+    
+    public int insert(String insertQuery) throws SQLException {
+        statement = connection.createStatement();
+        int result = statement.executeUpdate(insertQuery);
+        return result;
+    }
+    
+    public boolean tableExist(String tableName) throws SQLException {
+        boolean tExists = false;
+        try (ResultSet rs = connection.getMetaData().getTables(null, null, tableName, null)) {
+            while (rs.next()) { 
+                String tName = rs.getString("TABLE_NAME");
+                if (tName != null && tName.equals(tableName)) {
+                    tExists = true;
+                    break;
+                }
+            }
+        }
+        return tExists;
+    }
 }

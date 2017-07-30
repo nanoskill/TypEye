@@ -13,14 +13,14 @@ import javax.swing.Timer;
 
 public class TestType
 {
-	public static final int TIME = 12;
+	public static final int TIME = 2;
 	
-	private TimeDisplay timeDisplay; //for nPanel
 	private StatusBar statusBar; //for sPanel
 	private ScriptPane pane; //for cPanel
 	private InputArea input; //for cPanel
 	
 	private Timer timer;
+	private TimeDisplay timeDisplay; //for nPanel
 	
 	private DataCounter counter;
 	

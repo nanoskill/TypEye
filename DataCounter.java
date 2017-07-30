@@ -14,6 +14,7 @@ public class DataCounter
 	private int seconds;
 	private long prevNanotime;
 	private int corrects, mistakes;
+	private User user;
 	
 	public DataCounter(int forTime)
 	{
@@ -60,10 +61,9 @@ public class DataCounter
 	
 	public void storeData()
 	{
-		MysqlConnect db = new MysqlConnect();
-		Connection conn = null;
+		MysqlMgr db = new MysqlMgr();
 		try {
-			conn = db.connect();
+			
 			StringBuilder query = new StringBuilder();
 			query.append("INSERT INTO rawdata (delay, currword, currtext, masterchar, userchar, correct) VALUES ");
 			
@@ -73,9 +73,16 @@ public class DataCounter
 				if(i != datas.size()-1)
 					query.append(",");
 			}
-			Statement stmt = conn.createStatement();
-			System.out.println("Statement " + query.toString());
-			stmt.executeUpdate(query.toString());
+			
+			db.connect();
+			
+			/*if(!db.tableExist(user.getId()))
+				db.query("CREATE TABLE IF NOT EXISTS)
+			else
+				System.out.println("not exist");
+			*/
+			db.insert(query.toString());
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
