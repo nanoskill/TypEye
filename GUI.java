@@ -1,6 +1,8 @@
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -8,6 +10,7 @@ import javax.swing.JFrame;
 
 public class GUI extends JFrame
 {
+	private static GUI gui;
 	private NorthPanel nPanel;
 	private CenterPanel cPanel;
 	private SouthPanel sPanel;
@@ -31,15 +34,34 @@ public class GUI extends JFrame
 	public void initiateTest()
 	{
 		typingTest = new TestType();
+		nPanel.removeAll();
+		cPanel.removeAll();
+		sPanel.removeAll();
 		nPanel.setTimer(typingTest.getTimeDisplay());
 		cPanel.setPane(typingTest.getPane());
 		cPanel.setInput(typingTest.getInput());
+		cPanel.add(typingTest.getResetBtn());
+		cPanel.getInput().requestFocus();
 		sPanel.setStatusBar(typingTest.getStatusBar());
+		if(gui!=null)
+		{
+			gui.repaint();
+			gui.revalidate();
+		}
+		typingTest.getResetBtn().addActionListener(reset);
 	}
+	
+	private ActionListener reset = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e) {
+			initiateTest();
+		}
+
+	};
 	
 	public static void main(String[] args)
 	{
-		GUI gui = new GUI();
+		gui = new GUI();
 		gui.setTitle("Title");
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setVisible(true);

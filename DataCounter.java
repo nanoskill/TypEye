@@ -81,8 +81,8 @@ public class DataCounter
 			else
 				System.out.println("not exist");
 			*/
-			db.insert(query.toString());
-			
+			//db.insert(query.toString());
+			db.query("SELECT * FROM rawdata");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

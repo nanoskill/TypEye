@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.Timer;
 
 public class TestType
@@ -18,6 +19,7 @@ public class TestType
 	private StatusBar statusBar; //for sPanel
 	private ScriptPane pane; //for cPanel
 	private InputArea input; //for cPanel
+	private JButton resetBtn;
 	
 	private Timer timer;
 	private TimeDisplay timeDisplay; //for nPanel
@@ -46,6 +48,9 @@ public class TestType
 		
 		//timer
 		timer = new Timer(1000, timerFunc);
+		
+		resetBtn = new JButton("Reset");
+		resetBtn.setVisible(false);
 		
 	}
 	
@@ -125,6 +130,8 @@ public class TestType
 		timer.stop();
 		counter.showData();
 		counter.storeData();
+		resetBtn.setSize(100, 50);
+		resetBtn.setVisible(true);
 		System.out.println("WPM: " + ((counter.getCorrects() - counter.getMistakes())));
 	}
 	
@@ -163,5 +170,13 @@ public class TestType
 	public InputArea getInput()
 	{
 		return input;
+	}
+
+	public JButton getResetBtn() {
+		return resetBtn;
+	}
+
+	public void setResetBtn(JButton resetBtn) {
+		this.resetBtn = resetBtn;
 	}
 }
