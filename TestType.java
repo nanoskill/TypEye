@@ -129,7 +129,7 @@ public class TestType
 		input.setEnabled(false);
 		timer.stop();
 		counter.showData();
-		counter.storeData();
+		//counter.storeData();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
 		System.out.println("WPM: " + ((counter.getCorrects() - counter.getMistakes())));

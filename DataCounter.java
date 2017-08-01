@@ -58,7 +58,7 @@ public class DataCounter
 		}
 		System.out.println("Total time elapsed: " + temp);
 	}
-	
+	/*
 	public void storeData()
 	{
 		MysqlMgr db = new MysqlMgr();
@@ -76,11 +76,11 @@ public class DataCounter
 			
 			db.connect();
 			
-			/*if(!db.tableExist(user.getId()))
+			if(!db.tableExist(user.getId()))
 				db.query("CREATE TABLE IF NOT EXISTS)
 			else
 				System.out.println("not exist");
-			*/
+			
 			//db.insert(query.toString());
 			db.query("SELECT * FROM rawdata");
 		} catch (SQLException e) {
@@ -92,7 +92,7 @@ public class DataCounter
 			db.disconnect();			
 		}
 	}
-
+	*/
 	public int getSeconds()
 	{
 		return seconds;

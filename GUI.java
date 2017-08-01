@@ -24,8 +24,6 @@ public class GUI extends JFrame
 		sPanel = new SouthPanel();
 		add(nPanel, BorderLayout.NORTH);
 		add(cPanel, BorderLayout.CENTER);
-		//LoginPage a = new LoginPage();
-		//add(a, BorderLayout.CENTER);
 		add(sPanel, BorderLayout.SOUTH);
 		
 		initiateTest();
@@ -76,5 +74,4 @@ public class GUI extends JFrame
 			}
 		});
 	}
-
 }
