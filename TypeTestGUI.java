@@ -3,31 +3,69 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class TypeTestGUI extends JFrame
+public class TypeTestGUI
 {
-	private static TypeTestGUI gui;
+	private JPanel frame;
 	private NorthPanel nPanel;
 	private CenterPanel cPanel;
 	private SouthPanel sPanel;
 	
 	private TestType typingTest;
-	public TypeTestGUI()
-	{
+	
+	public TypeTestGUI() {
+		initialize();
+	}
+
+	private void initialize() {	
+		frame = new JPanel(new BorderLayout());
+		getFrame().setBounds(100, 100, 800, 600);
+		getFrame().setSize(new Dimension(800,600));
+		
+		frame.addComponentListener(focusReq);
+	
 		typingTest = new TestType();
 		nPanel = new NorthPanel();
 		cPanel = new CenterPanel();
 		sPanel = new SouthPanel();
-		add(nPanel, BorderLayout.NORTH);
-		add(cPanel, BorderLayout.CENTER);
-		add(sPanel, BorderLayout.SOUTH);
+		getFrame().add(nPanel, BorderLayout.NORTH);
+		getFrame().add(cPanel, BorderLayout.CENTER);
+		getFrame().add(sPanel, BorderLayout.SOUTH);
 		
 		initiateTest();
 	}
+	
+	private ComponentListener focusReq = new ComponentListener()
+			{
+
+				@Override
+				public void componentHidden(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentMoved(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentResized(ComponentEvent arg0) {
+					cPanel.getInput().requestFocus();					
+				}
+
+				@Override
+				public void componentShown(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+		
+			};
 	
 	public void initiateTest()
 	{
@@ -41,12 +79,11 @@ public class TypeTestGUI extends JFrame
 		cPanel.add(typingTest.getResetBtn());
 		cPanel.getInput().requestFocus();
 		sPanel.setStatusBar(typingTest.getStatusBar());
-		if(gui!=null)
-		{
-			gui.repaint();
-			gui.revalidate();
-		}
 		typingTest.getResetBtn().addActionListener(reset);
+	}
+	
+	public JPanel getFrame() {
+		return frame;
 	}
 	
 	private ActionListener reset = new ActionListener()
@@ -56,19 +93,4 @@ public class TypeTestGUI extends JFrame
 		}
 
 	};
-	
-	/*public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginEyeClass window = new LoginEyeClass();
-					window.getFrame().setVisible(true);
-					window.getFrame().setTitle("TypEye - Login");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 }

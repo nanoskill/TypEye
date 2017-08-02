@@ -104,7 +104,10 @@ public class LoginEyeClass{
 	{
 		public void actionPerformed(ActionEvent e) {
 			MainFrame mf = MainFrame.getMainFrame();
-			FaceTrack window = new FaceTrack();
+			//FaceTrack window = new FaceTrack();
+
+			TypeTestGUI window = new TypeTestGUI();
+			mf.setSize(window.getFrame().getSize());
 			mf.setContentPane(window.getFrame());
 			mf.setTitle("TypEye - FaceTrack");
 			mf.refresh();
