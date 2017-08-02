@@ -1,70 +1,45 @@
-package loginEye;
-
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JDesktopPane;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class LoginEyeClass {
+public class LoginEyeClass{
 
-	private static final BufferedImage NULL = null;
-	private JFrame frame;
+	private JPanel frame;
 	private JTextField textField;
 	private JTextField textField_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginEyeClass window = new LoginEyeClass();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public LoginEyeClass() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JPanel(new BorderLayout());
+		getFrame().setBounds(100, 100, 450, 300);
+		getFrame().setSize(new Dimension(450, 300));
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		frame.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
@@ -78,6 +53,7 @@ public class LoginEyeClass {
 		btnLogin.setBounds(91, 98, 75, 23);
 		panel_1.add(btnLogin);
 		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		btnLogin.addActionListener(login);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(27, 64, 54, 14);
@@ -109,7 +85,7 @@ public class LoginEyeClass {
 		
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("pictures/logo.png"));
+			img = ImageIO.read(new File("src/pictures/logo.png"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -122,5 +98,20 @@ public class LoginEyeClass {
 		panel.add(lblNewLabel);
 		
 		
+	}
+	
+	private ActionListener login = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e) {
+			MainFrame mf = MainFrame.getMainFrame();
+			FaceTrack window = new FaceTrack();
+			mf.setContentPane(window.getFrame());
+			mf.setTitle("TypEye - FaceTrack");
+			mf.refresh();
+		}
+	};
+
+	public JPanel getFrame() {
+		return frame;
 	}
 }

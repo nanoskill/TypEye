@@ -1,5 +1,3 @@
-package loginEye;
-
 import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;

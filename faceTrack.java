@@ -1,6 +1,4 @@
-package loginEye;
 
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,59 +6,38 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
-public class faceTrack {
+public class FaceTrack {
 
-	private JFrame frame;
+	private JPanel frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					faceTrack window = new faceTrack();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public faceTrack() {
+	public FaceTrack() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
+	private void initialize() {	
+		frame = new JPanel(new BorderLayout());
+		getFrame().setBounds(100, 100, 450, 300);
+		getFrame().setSize(new Dimension(450, 300));
+	
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 434, 52);
-		frame.getContentPane().add(panel);
+		getFrame().add(panel);
 		panel.setLayout(null);
 		
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("pictures/logo.png"));
+			img = ImageIO.read(new File("src/pictures/logo.png"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -80,10 +57,14 @@ public class faceTrack {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(Color.GRAY));
 		panel_1.setBounds(119, 63, 196, 176);
-		frame.getContentPane().add(panel_1);
+		getFrame().add(panel_1);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 52, 434, 11);
-		frame.getContentPane().add(separator);
+		getFrame().add(separator);
+	}
+
+	public JPanel getFrame() {
+		return frame;
 	}
 }

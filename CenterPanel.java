@@ -1,7 +1,7 @@
 
 import javax.swing.JPanel;
 
-/*public class CenterPanel extends JPanel
+public class CenterPanel extends JPanel
 {
 	private ScriptPane pane;
 	private InputArea input;
@@ -32,4 +32,4 @@ import javax.swing.JPanel;
 		this.input = input;
 		add(input);
 	}
-}*/
+}
