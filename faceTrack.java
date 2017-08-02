@@ -48,12 +48,6 @@ public class FaceTrack {
 		lblNewLabel.setBounds(10, 11, 76, 30);
 		panel.add(lblNewLabel);
 		
-		JLabel lblTime = new JLabel("01:00");
-		lblTime.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTime.setBounds(361, 11, 63, 30);
-		panel.add(lblTime);
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(Color.GRAY));
 		panel_1.setBounds(119, 63, 196, 176);
