@@ -1,4 +1,4 @@
-
+/*
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -33,4 +33,4 @@ public class TimeDisplay extends JPanel
 		timeLbl.setText(timeFormat.format(inp));
 	}
 	
-}
+}*/

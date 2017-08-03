@@ -1,5 +1,5 @@
 
-
+/*
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -28,4 +28,4 @@ public class NorthPanel extends JPanel
 		add(timer, BorderLayout.EAST);
 	}
 
-}
+}*/

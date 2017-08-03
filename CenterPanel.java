@@ -1,4 +1,4 @@
-
+/*
 import javax.swing.JPanel;
 
 public class CenterPanel extends JPanel
@@ -33,3 +33,4 @@ public class CenterPanel extends JPanel
 		add(input);
 	}
 }
+*/

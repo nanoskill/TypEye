@@ -11,16 +11,16 @@ import java.util.Vector;
 public class DataCounter
 {
 	private Vector<Data> datas;
-	private int seconds;
+	//private int seconds;
 	private long prevNanotime;
 	private int corrects, mistakes;
 	private User user;
 	
-	public DataCounter(int forTime)
+	public DataCounter()
 	{
 		datas = new Vector<Data>();
 		prevNanotime = System.nanoTime();
-		seconds = forTime;
+		//seconds = forTime;
 		setCorrects(0);
 		setMistakes(0);
 	}
@@ -93,7 +93,7 @@ public class DataCounter
 		}
 	}
 	*/
-	public int getSeconds()
+	/*public int getSeconds()
 	{
 		return seconds;
 	}
@@ -101,7 +101,7 @@ public class DataCounter
 	public void setSeconds(int seconds)
 	{
 		this.seconds = seconds;
-	}
+	}*/
 
 	public int getCorrects()
 	{

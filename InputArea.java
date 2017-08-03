@@ -1,4 +1,4 @@
-
+/*
 import java.awt.Color;
 import java.awt.Font;
 
@@ -14,3 +14,4 @@ public class InputArea extends JTextArea
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
 	}
 }
+*/

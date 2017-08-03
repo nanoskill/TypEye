@@ -8,39 +8,48 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 public class TestType
 {
-	public static final int TIME = 2;
 	
-	private StatusBar statusBar; //for sPanel
-	private ScriptPane pane; //for cPanel
-	private InputArea input; //for cPanel
+	private JLabel statusBar;
+	private ScriptPane pane; 
+	private JTextField input;
+	private JLabel timeLbl;
+	
+	private int elapsed;
+	
 	private JButton resetBtn;
-	
-	private Timer timer;
-	private TimeDisplay timeDisplay; //for nPanel
-	
 	private DataCounter counter;
 	
-	public TestType()
+	public TestType(JLabel timeLbl, JLabel statusBar, JTextField input)
 	{
 		MysqlMgr db = new MysqlMgr();
 		ResultSet rs;
-		//pane
 		try
 		{
 			db.connect();
-			rs = db.query("SELECT `text` FROM `testtype` WHERE 1");
-			String inp = null;
+			Random rnd = new Random(System.nanoTime());
+			int x = rnd.nextInt(3) + 1;
+			int cnt = 1;
+			rs = db.query("SELECT `text` FROM `testtype`");
+			String inp = "- No data -";
 			while(rs.next())
 			{
-				inp = rs.getString("text");	
+				if(cnt++ == x)
+				{
+					inp = rs.getString("text");	
+					break;					
+				}
 			}
 			pane = new ScriptPane(inp);
 			rs.close();
@@ -52,104 +61,95 @@ public class TestType
 			db.disconnect();
 		}
 		//input
-		input = new InputArea();
-		input.addKeyListener(spaceStroke);
+		this.input = input;
 		
-		//timedisplay
-		timeDisplay = new TimeDisplay();
+		this.timeLbl = timeLbl;
 		
 		//statusBar
-		statusBar = new StatusBar("-Status Bar-");
+		this.statusBar = statusBar;
 		
 		//timer
-		timer = new Timer(1000, timerFunc);
+		//timer = new Timer(1000, timerFunc);
 		
 		resetBtn = new JButton("Reset");
 		resetBtn.setVisible(false);
 		
 	}
 	
-	private ActionListener timerFunc = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
+	
+	public void keyboardTyped(KeyEvent e)
+	{	   		
+   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
+   			e.consume();
+	}
+   	public void keyBoardPressed(KeyEvent e)
+   	{
+		if(counter == null)
+			counter = new DataCounter();
+		
+		String text = input.getText();
+		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length()>0)
+			text = text.substring(0, input.getText().length()-1);
+		else if(DataCounter.isInputtable(e))
+			text = text + e.getKeyChar();
+		
+		String currWord = pane.getCurrentWord();
+		//System.out.println("kP: " + currWord +" "+ text +" "+ e.getKeyChar());
+		
+		Data temp = null;
+		
+		if(!pane.isEmptyWord())
 		{
-			int sec = counter.getSeconds()-1;
-			counter.setSeconds(sec);
-			timeDisplay.updateTime(new Date(sec*1000));
-			if(sec <= 0)
+			temp = counter.addData(currWord, text, e);
+			pane.buildOnWord(text);
+			pane.updateText();
+		}
+   		
+   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
+   		{	   			
+   			e.consume();
+   			if(pane.isEmptyWord())
+   			{
    				terminateTest();
-		}
-	};
-	
-	private KeyAdapter spaceStroke = new KeyAdapter()
-	{
-		public void keyTyped(KeyEvent e)
-		{	   		
-	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
-	   			e.consume();
-		}
-	   	public void keyPressed(KeyEvent e)
-	   	{
-			if(counter == null)
-			{
-				counter = new DataCounter(TIME);
-				timer.start();
-				timeDisplay.updateTime(new Date(TIME*1000));
-			}
-			
-			String text = input.getText();
-			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length()>0)
-				text = text.substring(0, input.getText().length()-1);
-			else if(DataCounter.isInputtable(e))
-				text = text + e.getKeyChar();
-			
-   			String currWord = pane.getCurrentWord();
-			//System.out.println("kP: " + currWord +" "+ text +" "+ e.getKeyChar());
-			
-			Data temp = null;
-			
-			if(!pane.isEmptyWord())
-			{
-				temp = counter.addData(currWord, text, e);
-				pane.buildOnWord(text);
-				pane.updateText();
-			}
-	   		
-	   		if (e.getKeyChar() == KeyEvent.VK_SPACE)
-	   		{	   			
-	   			e.consume();
-	   			if(pane.isEmptyWord())
-	   			{
-	   				terminateTest();
-	   				return;
-	   			}
-	   			
-	   			if(text.length() < currWord.length())
-	   			{
-	   				for(int i=text.length();i<currWord.length();i++)
-	   					counter.addData(currWord, text, e);
-	   			}
-   				pane.nextWord(temp.isWordCorrect());
-	   			input.setText("");
-	 		}
+   				return;
+   			}
+   			
+   			if(text.length() < currWord.length())
+   			{
+   				for(int i=text.length();i<currWord.length();i++)
+   					counter.addData(currWord, text, e);
+   			}
+			pane.nextWord(temp.isWordCorrect());
+   			input.setText("");
+ 		}
 
-   			//System.out.println(temp.printData());
-			statusBar.updateStatus(counter.getCorrects(), counter.getMistakes());
-	   	}
-	};
+		//System.out.println(temp.printData());
+		updateStatus(counter.getCorrects(), counter.getMistakes());
+   	}
+	public void updateTime(int inp)
+	{
+		//System.out.println(inp);
+		elapsed = inp;
+		SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
+		timeLbl.setText(timeFormat.format(new Date(elapsed*1000)));
+	}
 	
-	private void terminateTest()
+	private void updateStatus(int correct, int mistakes)
+	{
+		statusBar.setText("Correct : " + correct + " | Mistakes: " + mistakes);
+	}
+	
+	public void terminateTest()
 	{
 		//pane.updateText("--Finished--");
 		input.setEnabled(false);
-		timer.stop();
 		counter.showData();
 		//counter.storeData();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
 		System.out.println("WPM: " + ((counter.getCorrects() - counter.getMistakes())));
 	}
-	
+	/*
 	private String readTxt(String pathname) throws IOException {
 
 	    File file = new File(pathname);
@@ -164,8 +164,8 @@ public class TestType
 	    } finally {
 	        scanner.close();
 	    }
-	}
-
+	}*/
+/*
 	public TimeDisplay getTimeDisplay()
 	{
 		return timeDisplay;
@@ -176,22 +176,32 @@ public class TestType
 	{
 		return statusBar;
 	}
-
+*/
 	public ScriptPane getPane()
 	{
 		return pane;
 	}
 
-	public InputArea getInput()
+/*	public InputArea getInput()
 	{
 		return input;
 	}
-
+*/
 	public JButton getResetBtn() {
 		return resetBtn;
 	}
 
 	public void setResetBtn(JButton resetBtn) {
 		this.resetBtn = resetBtn;
+	}
+
+
+	public int getElapsed() {
+		return elapsed;
+	}
+
+
+	public void setElapsed(int elapsed) {
+		this.elapsed = elapsed;
 	}
 }

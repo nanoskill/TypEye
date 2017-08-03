@@ -1,4 +1,4 @@
-
+/*
 
 import javax.swing.JPanel;
 
@@ -23,3 +23,4 @@ public class SouthPanel extends JPanel
 	}
 	
 }
+*/
