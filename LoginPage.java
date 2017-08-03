@@ -23,13 +23,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class LoginEyeClass{
+public class LoginPage{
 
 	private JPanel frame;
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public LoginEyeClass() {
+	public LoginPage() {
 		initialize();
 	}
 
@@ -106,7 +106,7 @@ public class LoginEyeClass{
 			MainFrame mf = MainFrame.getMainFrame();
 			//FaceTrack window = new FaceTrack();
 
-			TypeTestGUI window = new TypeTestGUI();
+			TypeTestPage window = new TypeTestPage();
 			mf.setSize(window.getFrame().getSize());
 			mf.setContentPane(window.getFrame());
 			mf.setTitle("TypEye - FaceTrack");
