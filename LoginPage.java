@@ -113,7 +113,7 @@ public class LoginPage{
 			TypeTestPage window = new TypeTestPage();
 			mf.setSize(window.getFrame().getSize());
 			mf.setContentPane(window.getFrame());
-			mf.setTitle("TypEye - FaceTrack");
+			mf.setTitle("TypEye - Test type");
 			mf.refresh();
 		}
 	};

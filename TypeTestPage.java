@@ -201,7 +201,7 @@ public class TypeTestPage
 			int sec = typingTest.getElapsed()-1;
 			//counter.setSeconds(sec);
 
-			System.out.println(sec);
+			//System.out.println(sec);
 			typingTest.updateTime(sec);
 			if(sec <= 0)
 			{

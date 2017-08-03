@@ -23,10 +23,15 @@ public class MainFrame extends JFrame{
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 		
+<<<<<<< HEAD
 		//LoginPage window = new LoginPage();
 		//TypeTestPage window = new TypeTestPage();
 		//ThanksPage window = new ThanksPage();
 		FaceTrackingPage window = new FaceTrackingPage();
+=======
+		LoginPage window = new LoginPage();
+		//TypeTestPage window = new TypeTestPage();
+>>>>>>> master
 		mainFrame.setContentPane(window.getFrame());
 		mainFrame.setSize(window.getFrame().getSize());
 		mainFrame.setTitle("TypEye - Login");
