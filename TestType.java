@@ -6,6 +6,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -28,13 +30,26 @@ public class TestType
 	
 	public TestType()
 	{
+		MysqlMgr db = new MysqlMgr();
+		ResultSet rs;
 		//pane
 		try
 		{
-			pane = new ScriptPane(readTxt("E:/pembukaanuud.txt"));
-		} catch (IOException e)
+			db.connect();
+			rs = db.query("SELECT `text` FROM `testtype` WHERE 1");
+			String inp = null;
+			while(rs.next())
+			{
+				inp = rs.getString("text");	
+			}
+			pane = new ScriptPane(inp);
+			rs.close();
+		} catch (SQLException e)
 		{
 			e.printStackTrace();
+		} finally
+		{
+			db.disconnect();
 		}
 		//input
 		input = new InputArea();
