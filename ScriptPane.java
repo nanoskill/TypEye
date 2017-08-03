@@ -13,8 +13,8 @@ public class ScriptPane extends JTextPane
 	private String doneWord, onWord, restWord;
 	private int topLineLen;
 	
-	private final int LIMIT = 85;
-	private final int N_LINE = 13;
+	private final int LIMIT = 75;
+	private final int N_LINE = 11;
 	
 	public ScriptPane(String text)
 	{
@@ -61,12 +61,12 @@ public class ScriptPane extends JTextPane
 	
 	public void updateText()
 	{
-		setText("<font style='font-size:14px'>" + doneWord + onWord + restWord + "</font");
+		setText("<font style='font-size:14px'>" + doneWord + onWord + restWord + "</font>");
 	}
 	
 	public void updateText(String inp)
 	{
-		setText("<font style='font-size:14px'>" + inp + "</font");
+		setText("<font style='font-size:14px'>" + inp + "</font>");
 	}
 	
 	public void buildDoneWord(boolean correct)

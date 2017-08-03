@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -19,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import javax.swing.JTextPane;
 import javax.swing.JSeparator;
 
 public class TypeTestPage
@@ -185,12 +183,6 @@ public class TypeTestPage
 
 		nPanel.add(timeDisplay);
 		sPanel.add(statusBar);
-		//nPanel.setTimer(typingTest.getTimeDisplay());
-		//cPanel.setPane(typingTest.getPane());
-		//cPanel.setInput(typingTest.getInput());
-		//cPanel.add(typingTest.getResetBtn());
-		//cPanel.getInput().requestFocus();
-		//sPanel.setStatusBar(typingTest.getStatusBar());
 		typingTest.getResetBtn().addActionListener(reset);
 	}
 
@@ -199,9 +191,7 @@ public class TypeTestPage
 		public void actionPerformed(ActionEvent e)
 		{
 			int sec = typingTest.getElapsed()-1;
-			//counter.setSeconds(sec);
 
-			//System.out.println(sec);
 			typingTest.updateTime(sec);
 			if(sec <= 0)
 			{

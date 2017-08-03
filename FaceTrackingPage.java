@@ -9,11 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 import javax.swing.border.LineBorder;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 

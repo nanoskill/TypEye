@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -100,8 +99,6 @@ public class LoginPage{
 		
 		lblNewLabel.setBounds(294, 40, 212, 137);
 		panel.add(lblNewLabel);
-		
-		
 	}
 	
 	private ActionListener login = new ActionListener()
