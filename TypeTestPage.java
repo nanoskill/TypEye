@@ -8,7 +8,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JPanel;
 
-public class TypeTestGUI
+public class TypeTestPage
 {
 	private JPanel frame;
 	private NorthPanel nPanel;
@@ -17,7 +17,7 @@ public class TypeTestGUI
 	
 	private TestType typingTest;
 	
-	public TypeTestGUI() {
+	public TypeTestPage() {
 		initialize();
 	}
 

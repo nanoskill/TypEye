@@ -17,7 +17,7 @@ import java.awt.Image;
 import java.awt.Canvas;
 import java.awt.Color;
 
-public class thanks {
+public class ThanksPage {
 
 	private JFrame frame;
 
@@ -28,7 +28,7 @@ public class thanks {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					thanks window = new thanks();
+					ThanksPage window = new ThanksPage();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +40,7 @@ public class thanks {
 	/**
 	 * Create the application.
 	 */
-	public thanks() {
+	public ThanksPage() {
 		initialize();
 	}
 

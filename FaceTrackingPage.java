@@ -17,11 +17,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class FaceTrack {
+public class FaceTrackingPage {
 
 	private JPanel frame;
 
-	public FaceTrack() {
+	public FaceTrackingPage() {
 		initialize();
 	}
 
