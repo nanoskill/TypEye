@@ -35,8 +35,8 @@ public class LoginPage{
 
 	private void initialize() {
 		frame = new JPanel(new BorderLayout());
-		getFrame().setBounds(100, 100, 450, 300);
-		getFrame().setSize(new Dimension(450, 300));
+		getFrame().setBounds(100, 100, 800, 600);
+		getFrame().setSize(new Dimension(800, 600));
 		
 		JPanel panel = new JPanel();
 		frame.add(panel, BorderLayout.CENTER);
@@ -45,42 +45,46 @@ public class LoginPage{
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panel_1.setBackground(SystemColor.activeCaptionBorder);
-		panel_1.setBounds(88, 83, 257, 143);
+		panel_1.setBounds(162, 170, 476, 275);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(91, 98, 75, 23);
+		btnLogin.setBounds(180, 193, 139, 39);
 		panel_1.add(btnLogin);
-		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 17));
 		btnLogin.addActionListener(login);
 		
 		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(27, 64, 54, 14);
+		lblId.setBounds(68, 117, 54, 15);
 		panel_1.add(lblId);
-		lblId.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		lblId.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(108, 62, 117, 20);
+		textField_1.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		textField_1.setBounds(192, 117, 200, 22);
 		panel_1.add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(27, 33, 54, 14);
+		lblName.setBounds(68, 57, 54, 15);
 		panel_1.add(lblName);
-		lblName.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		lblName.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		textField = new JTextField();
-		textField.setBounds(108, 31, 117, 20);
+		textField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		textField.setBounds(192, 57, 200, 22);
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
 		JLabel label = new JLabel(":");
-		label.setBounds(91, 34, 9, 14);
+		label.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		label.setBounds(172, 57, 10, 15);
 		panel_1.add(label);
 		
 		JLabel label_1 = new JLabel(":");
-		label_1.setBounds(91, 65, 17, 14);
+		label_1.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		label_1.setBounds(172, 117, 10, 15);
 		panel_1.add(label_1);
 		
 		BufferedImage img = null;
@@ -91,10 +95,10 @@ public class LoginPage{
 		}
 		
 		JLabel lblNewLabel = new JLabel("");
-		Image theImage = img.getScaledInstance(100,50, Image.SCALE_SMOOTH);
+		Image theImage = img.getScaledInstance(190,95, Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(theImage));
 		
-		lblNewLabel.setBounds(155, 11, 123, 61);
+		lblNewLabel.setBounds(294, 40, 212, 137);
 		panel.add(lblNewLabel);
 		
 		

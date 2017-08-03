@@ -7,13 +7,20 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.JTextPane;
+import javax.swing.JSeparator;
 
 public class TypeTestPage
 {
@@ -38,7 +45,7 @@ public class TypeTestPage
 	}
 
 	private void initialize() {	
-		frame = new JPanel(new BorderLayout());
+		frame = new JPanel();
 		getFrame().setBounds(100, 100, 800, 600);
 		getFrame().setSize(new Dimension(800,600));
 		
@@ -46,15 +53,16 @@ public class TypeTestPage
 		
 		//North Panel
 		nPanel = new JPanel();
-		nPanel.setLayout(new BorderLayout());
+		nPanel.setBounds(0, 0, 800, 60);
 		nPanel.setPreferredSize(new Dimension(800, 40));
 		//nPanel.add(new JLabel("Logo"), BorderLayout.WEST);
 
 		timeDisplay = new JPanel();
+		timeDisplay.setBounds(670, 5, 100, 50);
 		timeDisplay.setLayout(new BorderLayout());
 		timeDisplay.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 		timeLbl = new JLabel();
-		timeLbl.setFont(new Font("SansSerif", Font.BOLD, 18));
+		timeLbl.setFont(new Font("SansSerif", Font.BOLD, 24));
 		
 		timeLbl.setText("");
 		
@@ -66,7 +74,9 @@ public class TypeTestPage
 		
 		//Center Panel
 		cPanel = new JPanel();
+		cPanel.setBounds(0, 60, 800, 540);
 		input = new JTextField();
+		input.setBounds(238, 338, 322, 31);
 		input.setColumns(20);
 		input.setFont(new Font("Serif", Font.PLAIN, 22));
 		input.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
@@ -75,13 +85,15 @@ public class TypeTestPage
 		
 		//South Panel
 		sPanel = new JPanel();
+		sPanel.setBounds(0, 590, 800, 10);
 		statusBar = new JLabel();
+		frame.setLayout(null);
 		//sPanel.add(statusBar);
 		//end of SouthPanel
 		
-		getFrame().add(nPanel, BorderLayout.NORTH);
-		getFrame().add(cPanel, BorderLayout.CENTER);
-		getFrame().add(sPanel, BorderLayout.SOUTH);
+		getFrame().add(nPanel);
+		getFrame().add(cPanel);
+		getFrame().add(sPanel);
 		
 		initiateTest();
 	}
@@ -99,6 +111,11 @@ public class TypeTestPage
 	   		{
 	   			timer.start();
 	   			typingTest.updateTime(TIME);
+	   		}
+	   		if(e.getKeyCode() == KeyEvent.VK_SPACE && typingTest.getPane().isEmptyWord())
+	   		{
+	   			timer.stop();
+	   			typingTest.terminateTest();
 	   		}
 			typingTest.keyBoardPressed(e);
 	   	}
@@ -141,10 +158,32 @@ public class TypeTestPage
 		cPanel.removeAll();
 		sPanel.removeAll();
 		cPanel.add(typingTest.getPane());
+		cPanel.setLayout(null);
 		cPanel.add(input);
-		nPanel.add(new JLabel("Logo"), BorderLayout.WEST);
+		
+		//JTextPane textPane = new JTextPane();
+		typingTest.getPane().setBounds(102, 28, 595, 262);
+		cPanel.add(typingTest.getPane());
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.GRAY);
+		separator.setBounds(0, 2, 800, 6);
+		cPanel.add(separator);
+		
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("src/pictures/logo.png"));
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		JLabel label = new JLabel();
+		label.setBounds(18, 5, 100, 50);
+		Image theImage = img.getScaledInstance(90,45, Image.SCALE_SMOOTH);
+		nPanel.setLayout(null);
+		label.setIcon(new ImageIcon(theImage));
+		nPanel.add(label);
 
-		nPanel.add(timeDisplay, BorderLayout.EAST);
+		nPanel.add(timeDisplay);
 		sPanel.add(statusBar);
 		//nPanel.setTimer(typingTest.getTimeDisplay());
 		//cPanel.setPane(typingTest.getPane());

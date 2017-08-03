@@ -35,7 +35,7 @@ public class TestType
 	{
 		MysqlMgr db = new MysqlMgr();
 		ResultSet rs;
-		try
+		/*try
 		{
 			db.connect();
 			Random rnd = new Random(System.nanoTime());
@@ -59,7 +59,8 @@ public class TestType
 		} finally
 		{
 			db.disconnect();
-		}
+		}*/
+		pane = new ScriptPane("No data");
 		//input
 		this.input = input;
 		
@@ -108,12 +109,7 @@ public class TestType
    		if (e.getKeyChar() == KeyEvent.VK_SPACE)
    		{	   			
    			e.consume();
-   			if(pane.isEmptyWord())
-   			{
-   				terminateTest();
-   				return;
-   			}
-   			
+   			if(pane.isEmptyWord()) return;
    			if(text.length() < currWord.length())
    			{
    				for(int i=text.length();i<currWord.length();i++)

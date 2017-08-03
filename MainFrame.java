@@ -24,7 +24,9 @@ public class MainFrame extends JFrame{
 		mainFrame.setVisible(true);
 		
 		//LoginPage window = new LoginPage();
-		TypeTestPage window = new TypeTestPage();
+		//TypeTestPage window = new TypeTestPage();
+		//ThanksPage window = new ThanksPage();
+		FaceTrackingPage window = new FaceTrackingPage();
 		mainFrame.setContentPane(window.getFrame());
 		mainFrame.setSize(window.getFrame().getSize());
 		mainFrame.setTitle("TypEye - Login");

@@ -26,14 +26,14 @@ public class FaceTrackingPage {
 	}
 
 	private void initialize() {	
-		frame = new JPanel(new BorderLayout());
-		getFrame().setBounds(100, 100, 450, 300);
-		getFrame().setSize(new Dimension(450, 300));
+		frame = new JPanel();
+		getFrame().setBounds(100, 100, 800, 600);
+		getFrame().setSize(new Dimension(800, 600));
+		frame.setLayout(null);
 	
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 52);
+		panel.setBounds(0, 0, 800, 60);
 		getFrame().add(panel);
-		panel.setLayout(null);
 		
 		BufferedImage img = null;
 		try {
@@ -43,18 +43,19 @@ public class FaceTrackingPage {
 		}
 		
 		JLabel lblNewLabel = new JLabel("");
-		Image theImage = img.getScaledInstance(60,30, Image.SCALE_SMOOTH);
+		lblNewLabel.setBounds(18, 5, 100, 50);
+		Image theImage = img.getScaledInstance(90,45, Image.SCALE_SMOOTH);
+		panel.setLayout(null);
 		lblNewLabel.setIcon(new ImageIcon(theImage));
-		lblNewLabel.setBounds(10, 11, 76, 30);
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(Color.GRAY));
-		panel_1.setBounds(119, 63, 196, 176);
+		panel_1.setBounds(154, 88, 492, 447);
 		getFrame().add(panel_1);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 52, 434, 11);
+		separator.setBounds(0, 60, 800, 6);
 		getFrame().add(separator);
 	}
 
