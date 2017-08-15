@@ -41,7 +41,8 @@ public class TestType
 			while(rs.next())
 			{
 				inp = rs.getString("script");
-				elapsed = rs.getInt("duration");
+				//elapsed = rs.getInt("duration");
+				elapsed = 3;
 			}
 			pane = new ScriptPane(inp);
 			rs.close();
@@ -128,15 +129,16 @@ public class TestType
 	{
 		//pane.updateText("--Finished--");
 		input.setEnabled(false);
+		counter.prepareDataShow();
 		counter.showData();
-		//counter.storeData();
+		counter.storeData();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
 		MainFrame mf = MainFrame.getMainFrame();
 		//FaceTrack window = new FaceTrack();
 
 		ThanksPage window = new ThanksPage();
-		window.updateResult(counter.getCorrects(), counter.getMistakes(), 999);
+		window.updateResult(counter.getCorrects(), counter.getMistakes(), counter.getWPM());
 		mf.setSize(window.getFrame().getSize());
 		mf.setContentPane(window.getFrame());
 		mf.setTitle("TypEye - Result");

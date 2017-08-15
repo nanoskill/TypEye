@@ -61,8 +61,8 @@ public class Data
 	public String printData()
 	{
 		String temp = KeyEvent.getKeyText(userKey.getKeyCode());
-		
-		return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp + " " + isCorrect());
+		return String.format("%5d %20s %20s %s %10s %s", delay, currWord, currText, masterChar, temp, isCorrect());
+		//return (String)(delay + " " + currWord  + " " + currText  + " " + masterChar + " " + temp + " " + isCorrect());
 	}
 	/*public String queryData()
 	{

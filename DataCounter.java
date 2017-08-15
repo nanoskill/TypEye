@@ -1,11 +1,14 @@
 
 
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
 public class DataCounter
@@ -13,8 +16,10 @@ public class DataCounter
 	private Vector<Data> datas;
 	//private int seconds;
 	private long prevNanotime;
-	private int corrects, mistakes;
+	private int corrects, mistakes, wpm;
+	private int realtime = 0;
 	private User user;
+	private StringBuilder dataShow;
 	
 	public DataCounter()
 	{
@@ -29,6 +34,7 @@ public class DataCounter
 	{
 		long currNanotime = System.nanoTime();
 		Data temp = new Data((currNanotime-prevNanotime)/1000000, currWord, currText, event);
+		realtime += (currNanotime-prevNanotime)/1000000;
 		datas.add(temp);
 		prevNanotime = currNanotime;
 		if(isInputtable(event) || event.getKeyCode() == KeyEvent.VK_SPACE)
@@ -47,61 +53,37 @@ public class DataCounter
 		if(temp < 33 || temp > 126) return false;
 		return true;
 	}
-	
-	public void showData()
+	public void prepareDataShow()
 	{
-		int temp = 0;
+		dataShow = new StringBuilder();
 		for(int i=0;i<datas.size();i++)
 		{
-			System.out.println(i + " " + datas.elementAt(i).printData());
-			temp += datas.elementAt(i).getDelay();
+			dataShow.append(String.format("%4d %s\n", i, datas.elementAt(i).printData()));
 		}
-		System.out.println("Total time elapsed: " + temp);
+		dataShow.append("Total time elapsed: " + realtime + "\n");
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");		
+		dataShow.append(String.format("Data generated: %s\n", dateFormat.format(new Date())));
 	}
-	/*
+	public void showData()
+	{
+		System.out.println(dataShow.toString());
+	}
+	
 	public void storeData()
 	{
-		MysqlMgr db = new MysqlMgr();
+		File newTextFile = new File("results/result.txt");
+
+        FileWriter fw;
 		try {
-			
-			StringBuilder query = new StringBuilder();
-			query.append("INSERT INTO rawdata (delay, currword, currtext, masterchar, userchar, correct) VALUES ");
-			
-			for(int i=0;i<datas.size();i++)
-			{
-				query.append(datas.elementAt(i).queryData());
-				if(i != datas.size()-1)
-					query.append(",");
-			}
-			
-			db.connect();
-			
-			if(!db.tableExist(user.getId()))
-				db.query("CREATE TABLE IF NOT EXISTS)
-			else
-				System.out.println("not exist");
-			
-			//db.insert(query.toString());
-			db.query("SELECT * FROM rawdata");
-		} catch (SQLException e) {
+			fw = new FileWriter(newTextFile);
+            fw.write(dataShow.toString());
+            fw.close();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		finally
-		{
-			db.disconnect();			
-		}
 	}
-	*/
-	/*public int getSeconds()
-	{
-		return seconds;
-	}
-
-	public void setSeconds(int seconds)
-	{
-		this.seconds = seconds;
-	}*/
 
 	public int getCorrects()
 	{
@@ -121,5 +103,17 @@ public class DataCounter
 	public void setMistakes(int mistakes)
 	{
 		this.mistakes = mistakes;
+	}
+	public int getWPM()
+	{
+		return (int)((corrects / 5) / ((float)realtime/60000)); 
+	}
+	public float getAccuracy()
+	{
+		return corrects / (corrects + mistakes);
+	}
+
+	public String getDataShow() {
+		return dataShow.toString();
 	}
 }
