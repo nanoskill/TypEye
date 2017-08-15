@@ -30,18 +30,18 @@ public class TestType
 		try
 		{
 			db.connect();
+			rs = db.query("SELECT * FROM `script`");
+			rs.last();
+			int rowcount = rs.getRow();
+			rs.close();
 			Random rnd = new Random(System.nanoTime());
-			int x = rnd.nextInt(3) + 1;
-			int cnt = 1;
-			rs = db.query("SELECT `text` FROM `testtype`");
+			int x = rnd.nextInt(rowcount) + 1;
+			rs = db.query("SELECT `script`,`duration` FROM `script` WHERE `id`=" + x);
 			String inp = "- No data -";
 			while(rs.next())
 			{
-				if(cnt++ == x)
-				{
-					inp = rs.getString("text");	
-					break;
-				}
+				inp = rs.getString("script");
+				elapsed = rs.getInt("duration");
 			}
 			pane = new ScriptPane(inp);
 			rs.close();
@@ -60,9 +60,6 @@ public class TestType
 		
 		//statusBar
 		this.statusBar = statusBar;
-		
-		//timer
-		//timer = new Timer(1000, timerFunc);
 		
 		resetBtn = new JButton("Reset");
 		resetBtn.setVisible(false);

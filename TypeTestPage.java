@@ -22,7 +22,7 @@ import javax.swing.JSeparator;
 
 public class TypeTestPage
 {
-	public static final int TIME = 15;
+	public static int duration;
 	
 	private JPanel frame;
 	private JPanel nPanel;
@@ -108,7 +108,7 @@ public class TypeTestPage
 	   		if(!timer.isRunning())
 	   		{
 	   			timer.start();
-	   			typingTest.updateTime(TIME);
+	   			typingTest.updateTime(duration);
 	   		}
 	   		if(e.getKeyCode() == KeyEvent.VK_SPACE && typingTest.getPane().isEmptyWord())
 	   		{
@@ -150,6 +150,8 @@ public class TypeTestPage
 	public void initiateTest()
 	{
 		typingTest = new TestType(timeLbl, statusBar, input);
+		
+		duration = typingTest.getElapsed();
 		
 		timer = new Timer(1000, timerFunc);
 		nPanel.removeAll();
