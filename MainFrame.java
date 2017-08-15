@@ -14,16 +14,16 @@ public class MainFrame extends JFrame{
 	public static MainFrame getMainFrame() {
 		return mainFrame;
 	}
-	
+		
 	public static void main(String[] args) {
 		mainFrame = new MainFrame();
 		mainFrame.setSize(800, 600);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 		
-		//LoginPage window = new LoginPage();
+		LoginPage window = new LoginPage();
 		//TypeTestPage window = new TypeTestPage();
-		ThanksPage window = new ThanksPage();
+		//ThanksPage window = new ThanksPage();
 		//FaceTrackingPage window = new FaceTrackingPage();
 
 		mainFrame.setContentPane(window.getFrame());

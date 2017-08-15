@@ -16,6 +16,9 @@ import javax.swing.JSeparator;
 public class ThanksPage {
 
 	private JPanel frame;
+	private JLabel correctResult;
+	private JLabel mistakeResult;
+	private JLabel wpmResult;
 
 	public ThanksPage() {
 		initialize();
@@ -73,26 +76,26 @@ public class ThanksPage {
 		lblCorrect.setBounds(47, 50, 55, 20);
 		panel_2.add(lblCorrect);
 		
-		JLabel lblWrong = new JLabel("Wrong");
+		JLabel lblWrong = new JLabel("Mistakes");
 		lblWrong.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWrong.setForeground(new Color(0, 0, 0));
 		lblWrong.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		lblWrong.setBounds(194, 50, 55, 20);
 		panel_2.add(lblWrong);
 		
-		JLabel lblNewLabel_1 = new JLabel("000");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(0, 128, 0));
-		lblNewLabel_1.setFont(new Font("SansSerif", Font.BOLD, 35));
-		lblNewLabel_1.setBounds(24, 73, 100, 30);
-		panel_2.add(lblNewLabel_1);
+		correctResult = new JLabel("000");
+		correctResult.setHorizontalAlignment(SwingConstants.CENTER);
+		correctResult.setForeground(new Color(0, 128, 0));
+		correctResult.setFont(new Font("SansSerif", Font.BOLD, 35));
+		correctResult.setBounds(24, 73, 100, 30);
+		panel_2.add(correctResult);
 		
-		JLabel lblNewLabel_2 = new JLabel("000");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(new Color(255, 0, 0));
-		lblNewLabel_2.setFont(new Font("SansSerif", Font.BOLD, 35));
-		lblNewLabel_2.setBounds(173, 73, 100, 30);
-		panel_2.add(lblNewLabel_2);
+		mistakeResult = new JLabel("000");
+		mistakeResult.setHorizontalAlignment(SwingConstants.CENTER);
+		mistakeResult.setForeground(new Color(255, 0, 0));
+		mistakeResult.setFont(new Font("SansSerif", Font.BOLD, 35));
+		mistakeResult.setBounds(173, 73, 100, 30);
+		panel_2.add(mistakeResult);
 		
 		JLabel lblWmpResult = new JLabel("WPM Result");
 		lblWmpResult.setHorizontalAlignment(SwingConstants.CENTER);
@@ -106,11 +109,18 @@ public class ThanksPage {
 		separator.setBackground(Color.GRAY);
 		separator.setForeground(Color.GRAY);
 		
-		JLabel lblNewLabel_3 = new JLabel("000");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setFont(new Font("SansSerif", Font.BOLD, 60));
-		lblNewLabel_3.setBounds(95, 140, 111, 55);
-		panel_2.add(lblNewLabel_3);
+		wpmResult = new JLabel("000");
+		wpmResult.setHorizontalAlignment(SwingConstants.CENTER);
+		wpmResult.setFont(new Font("SansSerif", Font.BOLD, 60));
+		wpmResult.setBounds(95, 140, 111, 55);
+		panel_2.add(wpmResult);
+	}
+	
+	public void updateResult(int correct, int mistake, int wpm)
+	{
+		correctResult.setText(Integer.toString(correct));
+		mistakeResult.setText(Integer.toString(mistake));
+		wpmResult.setText(Integer.toString(wpm));
 	}
 
 	public JPanel getFrame() {

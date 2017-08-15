@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 public class TestType
 {
-	
 	private JLabel statusBar;
 	private ScriptPane pane; 
 	private JTextField input;
@@ -41,7 +40,7 @@ public class TestType
 				if(cnt++ == x)
 				{
 					inp = rs.getString("text");	
-					break;					
+					break;
 				}
 			}
 			pane = new ScriptPane(inp);
@@ -136,7 +135,15 @@ public class TestType
 		//counter.storeData();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
-		System.out.println("WPM: " + ((counter.getCorrects() - counter.getMistakes())));
+		MainFrame mf = MainFrame.getMainFrame();
+		//FaceTrack window = new FaceTrack();
+
+		ThanksPage window = new ThanksPage();
+		window.updateResult(counter.getCorrects(), counter.getMistakes(), 999);
+		mf.setSize(window.getFrame().getSize());
+		mf.setContentPane(window.getFrame());
+		mf.setTitle("TypEye - Result");
+		mf.refresh();
 	}
 
 	public ScriptPane getPane()
