@@ -1,5 +1,10 @@
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
+
+import org.opencv.core.Core;
 
 public class MainFrame extends JFrame{
 	
@@ -16,15 +21,16 @@ public class MainFrame extends JFrame{
 	}
 		
 	public static void main(String[] args) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		mainFrame = new MainFrame();
 		mainFrame.setSize(800, 600);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 		
-		LoginPage window = new LoginPage();
+		//LoginPage window = new LoginPage();
 		//TypeTestPage window = new TypeTestPage();
 		//ThanksPage window = new ThanksPage();
-		//FaceTrackingPage window = new FaceTrackingPage();
+		FaceTrackingPage window = new FaceTrackingPage();
 
 		mainFrame.setContentPane(window.getFrame());
 		mainFrame.setSize(window.getFrame().getSize());
