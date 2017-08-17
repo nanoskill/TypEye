@@ -17,6 +17,7 @@ public class DataCounter
 	//private int seconds;
 	private long prevNanotime;
 	private int corrects, mistakes, wpm;
+	private float accuracy;
 	private int realtime = 0;
 	private User user;
 	private StringBuilder dataShow;

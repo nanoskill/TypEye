@@ -115,7 +115,7 @@ public class TypeTestPage
 	   			timer.stop();
 	   			typingTest.terminateTest();
 	   		}
-			typingTest.keyBoardPressed(e);
+			typingTest.keyboardPressed(e);
 	   	}
 	};
 	

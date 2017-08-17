@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 public class TestType
 {
-	private JLabel statusBar;
 	private ScriptPane pane; 
 	private JTextField input;
 	private JLabel timeLbl;
@@ -25,8 +24,25 @@ public class TestType
 	
 	public TestType(JLabel timeLbl, JLabel statusBar, JTextField input)
 	{
+		
+		//pane = new ScriptPane("No data");
+		pane = new ScriptPane(loadScript());
+		//input
+		this.input = input;
+		
+		this.timeLbl = timeLbl;
+	
+		resetBtn = new JButton("Reset");
+		resetBtn.setVisible(false);
+		
+	}
+	
+	public String loadScript()
+	{
 		MysqlMgr db = new MysqlMgr();
 		ResultSet rs;
+		String inp = "- No data -";
+		
 		try
 		{
 			db.connect();
@@ -37,14 +53,12 @@ public class TestType
 			Random rnd = new Random(System.nanoTime());
 			int x = rnd.nextInt(rowcount) + 1;
 			rs = db.query("SELECT `script`,`duration` FROM `script` WHERE `id`=" + x);
-			String inp = "- No data -";
 			while(rs.next())
 			{
 				inp = rs.getString("script");
 				//elapsed = rs.getInt("duration");
 				elapsed = 3;
 			}
-			pane = new ScriptPane(inp);
 			rs.close();
 		} catch (SQLException e)
 		{
@@ -53,27 +67,15 @@ public class TestType
 		{
 			db.disconnect();
 		}
-		//pane = new ScriptPane("No data");
-		//input
-		this.input = input;
-		
-		this.timeLbl = timeLbl;
-		
-		//statusBar
-		this.statusBar = statusBar;
-		
-		resetBtn = new JButton("Reset");
-		resetBtn.setVisible(false);
-		
+		return inp;
 	}
-	
 	
 	public void keyboardTyped(KeyEvent e)
 	{	   		
    		if (e.getKeyChar() == KeyEvent.VK_SPACE)
    			e.consume();
 	}
-   	public void keyBoardPressed(KeyEvent e)
+   	public void keyboardPressed(KeyEvent e)
    	{
 		if(counter == null)
 			counter = new DataCounter();
@@ -110,7 +112,6 @@ public class TestType
  		}
 
 		//System.out.println(temp.printData());
-		updateStatus(counter.getCorrects(), counter.getMistakes());
    	}
 	public void updateTime(int inp)
 	{
@@ -120,14 +121,8 @@ public class TestType
 		timeLbl.setText(timeFormat.format(new Date(elapsed*1000)));
 	}
 	
-	private void updateStatus(int correct, int mistakes)
-	{
-		statusBar.setText("Correct : " + correct + " | Mistakes: " + mistakes);
-	}
-	
 	public void terminateTest()
 	{
-		//pane.updateText("--Finished--");
 		input.setEnabled(false);
 		counter.prepareDataShow();
 		counter.showData();
@@ -135,8 +130,7 @@ public class TestType
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
 		MainFrame mf = MainFrame.getMainFrame();
-		//FaceTrack window = new FaceTrack();
-
+		
 		ThanksPage window = new ThanksPage();
 		window.updateResult(counter.getCorrects(), counter.getMistakes(), counter.getWPM());
 		mf.setSize(window.getFrame().getSize());
@@ -158,11 +152,9 @@ public class TestType
 		this.resetBtn = resetBtn;
 	}
 
-
 	public int getElapsed() {
 		return elapsed;
 	}
-
 
 	public void setElapsed(int elapsed) {
 		this.elapsed = elapsed;
