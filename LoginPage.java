@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -21,14 +22,19 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginPage{
 
+	private static User user;
 	private JPanel frame;
-	private JTextField textField;
-	private JTextField textField_1;
-
+	private JTextField userIdField;
+	private JTextField userNameField;
+	private JLabel errMsg;
+	
 	public LoginPage() {
+		user = new User();
 		initialize();
 	}
 
@@ -59,22 +65,22 @@ public class LoginPage{
 		panel_1.add(lblId);
 		lblId.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("SansSerif", Font.PLAIN, 18));
-		textField_1.setBounds(192, 117, 200, 22);
-		panel_1.add(textField_1);
-		textField_1.setColumns(10);
+		userIdField = new JTextField();
+		userIdField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		userIdField.setBounds(192, 117, 200, 22);
+		panel_1.add(userIdField);
+		userIdField.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(68, 57, 54, 15);
 		panel_1.add(lblName);
 		lblName.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
-		textField = new JTextField();
-		textField.setFont(new Font("SansSerif", Font.PLAIN, 18));
-		textField.setBounds(192, 57, 200, 22);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		userNameField = new JTextField();
+		userNameField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		userNameField.setBounds(192, 57, 200, 22);
+		panel_1.add(userNameField);
+		userNameField.setColumns(10);
 		
 		JLabel label = new JLabel(":");
 		label.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -85,6 +91,11 @@ public class LoginPage{
 		label_1.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		label_1.setBounds(172, 117, 10, 15);
 		panel_1.add(label_1);
+		
+		errMsg = new JLabel("");
+		errMsg.setForeground(Color.RED);
+		errMsg.setBounds(75, 170, 600, 15);
+		panel_1.add(errMsg);
 		
 		BufferedImage img = null;
 		try {
@@ -104,16 +115,58 @@ public class LoginPage{
 	private ActionListener login = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e) {
-			MainFrame mf = MainFrame.getMainFrame();
-			//FaceTrack window = new FaceTrack();
-
-			TypeTestPage window = new TypeTestPage();
-			mf.setSize(window.getFrame().getSize());
-			mf.setContentPane(window.getFrame());
-			mf.setTitle("TypEye - Test type");
-			mf.refresh();
+			user.setName(userNameField.getText());
+			user.setId(userIdField.getText());
+			boolean temp = validateLogin();
+			if(temp == false)
+				errMsg.setText("User doesn't exist or User ID and username doesn't match.");
+			else
+			{
+				MainFrame mf = MainFrame.getMainFrame();
+				//FaceTrack window = new FaceTrack();
+	
+				TypeTestPage window = new TypeTestPage();
+				mf.setSize(window.getFrame().getSize());
+				mf.setContentPane(window.getFrame());
+				mf.setTitle("TypEye - Test type");
+				mf.refresh();
+			}
 		}
 	};
+	
+	private boolean validateLogin()
+	{
+		MysqlMgr db = new MysqlMgr();
+		ResultSet rs;
+		int rowcount = -1;
+		try
+		{
+			db.connect();
+			rs = db.query("SELECT * FROM `user` where `userid` = \'" + user.getId() + "\' and `username` = \'" + user.getName() + "\'");
+			rs.last();
+			rowcount = rs.getRow();
+			while(rs.next())
+			{
+				if(rowcount != 1) break;
+				user.setDataid(rs.getInt("id"));
+			}
+			rs.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			db.disconnect();
+		}
+		if(rowcount == 0)
+			return false;
+		return true;
+	}
+	
+	public static User getUser()
+	{
+		return user;
+	}
 
 	public JPanel getFrame() {
 		return frame;

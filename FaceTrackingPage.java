@@ -34,17 +34,16 @@ import java.awt.Graphics;
 public class FaceTrackingPage {
 
 	private JPanel pane;
-	private JPanel panelFace;
+	private JPanel panelFace;	
 	private JLabel countedFace;
 	
-	private DaemonThread myThread = null;
+	private FacetrackThread facetrackThread = null;
     private VideoCapture webSource = null;
     private Mat frame = new Mat();
     private MatOfByte mem = new MatOfByte();
-    private String path = "haarcascades/haarcascade_frontalface_alt.xml";
+    private String path = "haarcascades/haarcascade_frontalface_alt2.xml";
     private CascadeClassifier faceDetector = new CascadeClassifier(FaceTrackingPage.class.getResource(path).getPath().substring(1).replace("%20", " "));
     private MatOfRect faceDetections = new MatOfRect();
-    private Integer faceDetected;
 
 	public FaceTrackingPage() {
 		initialize();
@@ -90,8 +89,9 @@ public class FaceTrackingPage {
 		initTracking();
 	}
 	
-	class DaemonThread implements Runnable {
+	class FacetrackThread implements Runnable {
 
+	    private Integer faceDetected;
         protected volatile boolean runnable = false;
 
         @Override
@@ -135,25 +135,25 @@ public class FaceTrackingPage {
                 }
             }
         }
+        
+    	public int getFaceDetected() {
+    		return faceDetected;
+    	}
     }
 
 	
 	private void initTracking()
 	{
         webSource = new VideoCapture(0); // video capture from default cam
-        myThread = new DaemonThread(); //create object of threat class
-        Thread t = new Thread(myThread);
+        facetrackThread = new FacetrackThread(); //create object of threat class
+        Thread t = new Thread(facetrackThread);
         t.setDaemon(true);
-        myThread.runnable = true;
+        facetrackThread.runnable = true;
         t.start();
     }
 
 	
 	public JPanel getFrame() {
 		return pane;
-	}
-
-	public int getFaceDetected() {
-		return faceDetected;
 	}
 }

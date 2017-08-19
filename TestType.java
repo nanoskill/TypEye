@@ -22,7 +22,7 @@ public class TestType
 	private JButton resetBtn;
 	private DataCounter counter;
 	
-	public TestType(JLabel timeLbl, JLabel statusBar, JTextField input)
+	public TestType(JLabel timeLbl, JTextField input)
 	{
 		
 		//pane = new ScriptPane("No data");

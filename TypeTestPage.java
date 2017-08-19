@@ -31,7 +31,6 @@ public class TypeTestPage
 	
 	private JPanel timeDisplay;
 	private JLabel timeLbl;
-	private JLabel statusBar;
 	private JTextField input;
 	
 	private Timer timer;
@@ -84,9 +83,9 @@ public class TypeTestPage
 		//South Panel
 		sPanel = new JPanel();
 		sPanel.setBounds(0, 590, 800, 10);
-		statusBar = new JLabel();
+		JLabel statusBar = new JLabel();
 		frame.setLayout(null);
-		//sPanel.add(statusBar);
+		sPanel.add(statusBar);
 		//end of SouthPanel
 		
 		getFrame().add(nPanel);
@@ -149,7 +148,7 @@ public class TypeTestPage
 	
 	public void initiateTest()
 	{
-		typingTest = new TestType(timeLbl, statusBar, input);
+		typingTest = new TestType(timeLbl, input);
 		
 		duration = typingTest.getElapsed();
 		
