@@ -183,7 +183,6 @@ public class TypeTestPage
 		nPanel.add(label);
 
 		nPanel.add(timeDisplay);
-		sPanel.add(statusBar);
 		typingTest.getResetBtn().addActionListener(reset);
 	}
 

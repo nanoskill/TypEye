@@ -19,6 +19,8 @@ public class TestType
 	
 	private int elapsed;
 	
+	private int scriptid;
+	
 	private JButton resetBtn;
 	private DataCounter counter;
 	
@@ -51,8 +53,8 @@ public class TestType
 			int rowcount = rs.getRow();
 			rs.close();
 			Random rnd = new Random(System.nanoTime());
-			int x = rnd.nextInt(rowcount) + 1;
-			rs = db.query("SELECT `script`,`duration` FROM `script` WHERE `id`=" + x);
+			scriptid = rnd.nextInt(rowcount) + 1;
+			rs = db.query("SELECT `script`,`duration` FROM `script` WHERE `id`=" + scriptid);
 			while(rs.next())
 			{
 				inp = rs.getString("script");
@@ -126,7 +128,8 @@ public class TestType
 		input.setEnabled(false);
 		counter.prepareDataShow();
 		counter.showData();
-		counter.storeData();
+		counter.storeData(scriptid);
+		counter.storeDataDetails();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
 		MainFrame mf = MainFrame.getMainFrame();
@@ -158,5 +161,9 @@ public class TestType
 
 	public void setElapsed(int elapsed) {
 		this.elapsed = elapsed;
+	}
+
+	public int getScriptid() {
+		return scriptid;
 	}
 }

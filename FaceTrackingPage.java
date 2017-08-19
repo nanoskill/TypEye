@@ -44,6 +44,7 @@ public class FaceTrackingPage {
     private String path = "haarcascades/haarcascade_frontalface_alt2.xml";
     private CascadeClassifier faceDetector = new CascadeClassifier(FaceTrackingPage.class.getResource(path).getPath().substring(1).replace("%20", " "));
     private MatOfRect faceDetections = new MatOfRect();
+    private Thread facethread;
 
 	public FaceTrackingPage() {
 		initialize();
@@ -146,14 +147,19 @@ public class FaceTrackingPage {
 	{
         webSource = new VideoCapture(0); // video capture from default cam
         facetrackThread = new FacetrackThread(); //create object of threat class
-        Thread t = new Thread(facetrackThread);
-        t.setDaemon(true);
+        facethread = new Thread(facetrackThread);
+        facethread.setDaemon(true);
         facetrackThread.runnable = true;
-        t.start();
+        facethread.start();
     }
 
 	
 	public JPanel getFrame() {
 		return pane;
+	}
+	
+	public Thread getFacethread()
+	{
+		return facethread;
 	}
 }

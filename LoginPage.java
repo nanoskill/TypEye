@@ -138,17 +138,16 @@ public class LoginPage{
 	{
 		MysqlMgr db = new MysqlMgr();
 		ResultSet rs;
-		int rowcount = -1;
+		int rowcount = 0;
 		try
 		{
 			db.connect();
 			rs = db.query("SELECT * FROM `user` where `userid` = \'" + user.getId() + "\' and `username` = \'" + user.getName() + "\'");
-			rs.last();
-			rowcount = rs.getRow();
 			while(rs.next())
 			{
-				if(rowcount != 1) break;
 				user.setDataid(rs.getInt("id"));
+				System.out.println(rs.getInt("id"));
+				rowcount++;
 			}
 			rs.close();
 		} catch (SQLException e)

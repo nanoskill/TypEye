@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,10 +18,8 @@ public class DataCounter
 	private Vector<Data> datas;
 	//private int seconds;
 	private long prevNanotime;
-	private int corrects, mistakes, wpm;
-	private float accuracy;
+	private int corrects, mistakes;
 	private int realtime = 0;
-	private User user;
 	private StringBuilder dataShow;
 	
 	public DataCounter()
@@ -71,9 +71,11 @@ public class DataCounter
 		System.out.println(dataShow.toString());
 	}
 	
-	public void storeData()
+	public void storeDataDetails()
 	{
-		File newTextFile = new File("results/result.txt");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss_");
+	
+		File newTextFile = new File("results/" +dateFormat.format(new Date()) + LoginPage.getUser().getId() +".txt");
 
         FileWriter fw;
 		try {
@@ -83,6 +85,25 @@ public class DataCounter
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void storeData(int scriptid)
+	{
+		MysqlMgr db = new MysqlMgr();
+		try
+		{
+			db.connect();
+			String q = "INSERT INTO `result` (`UserId`, `ScriptId`, `Correct`, `Mistakes`, `Accuracy`, `WPM`) "
+					+ "VALUES ('"+ LoginPage.getUser().getDataid() +"','"
+					+ scriptid + "', '"+ corrects +"', '"+ mistakes +"', '" + getAccuracy() + "', '" + getWPM() + "')";
+			db.insert(q);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			db.disconnect();
 		}
 	}
 
