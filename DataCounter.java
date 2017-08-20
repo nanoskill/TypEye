@@ -2,24 +2,20 @@
 
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
 public class DataCounter
 {
 	private Vector<Data> datas;
-	//private int seconds;
 	private long prevNanotime;
 	private int corrects, mistakes;
 	private int realtime = 0;
+	private int faceOk, faceNotOk;
 	private StringBuilder dataShow;
 	
 	public DataCounter()
@@ -61,6 +57,7 @@ public class DataCounter
 		{
 			dataShow.append(String.format("%4d %s\n", i, datas.elementAt(i).printData()));
 		}
+		dataShow.append("Face detection rate: OK: " + faceOk + " | Not OK: " + faceNotOk + " | Rate : " + (faceOk/(float)(faceOk + faceNotOk))*100 + "%\n");
 		dataShow.append("Total time elapsed: " + realtime + "\n");
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");		
@@ -88,6 +85,12 @@ public class DataCounter
 		}
 	}
 	
+	public void feedFaceData(int ok, int notok)
+	{
+		faceOk = ok;
+		faceNotOk = notok;
+	}
+	
 	public void storeData(int scriptid)
 	{
 		MysqlMgr db = new MysqlMgr();
@@ -98,7 +101,6 @@ public class DataCounter
 					+ "VALUES ('"+ LoginPage.getUser().getDataid() +"','"
 					+ scriptid + "', '"+ corrects +"', '"+ mistakes +"', '" + getAccuracy() + "', '" + getWPM() + "')";
 			db.insert(q);
-			System.out.println(getAccuracy());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

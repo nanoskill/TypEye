@@ -5,6 +5,7 @@ import org.opencv.core.Core;
 public class MainFrame extends JFrame{
 	
 	public static MainFrame mainFrame;
+	private static GazeTracking gazeTracking;
 	
 	public void refresh()
 	{
@@ -32,5 +33,13 @@ public class MainFrame extends JFrame{
 		mainFrame.setSize(window.getFrame().getSize());
 		mainFrame.setTitle("TypEye - Login");
 		mainFrame.refresh();
+	}
+
+	public static GazeTracking getGazeTracking() {
+		return gazeTracking;
+	}
+
+	public static void setGazeTracking(GazeTracking gazeTracking) {
+		MainFrame.gazeTracking = gazeTracking;
 	}
 }

@@ -3,7 +3,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,41 +14,20 @@ import javax.swing.JSeparator;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.core.MatOfRect;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.videoio.VideoCapture;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 
 public class FaceTrackingPage {
 
 	private JPanel pane;
 	private JPanel panelFace;	
 	private JLabel countedFace;
-    private static Integer faceDetected, ok = 0, notok = 0;
 	
-	private static Timer cd, updateDetect;
-	private int cdint = 3;
+	private GazeTracking gazeTracking;
 	
-	private FacetrackThread facetrackThread = null;
-    private static VideoCapture webSource = null;
-    private Mat frame = new Mat();
-    private MatOfByte mem = new MatOfByte();
-    private String path = "haarcascades/haarcascade_frontalface_alt2.xml";
-    private CascadeClassifier faceDetector = new CascadeClassifier(FaceTrackingPage.class.getResource(path).getPath().substring(1).replace("%20", " "));
-    private MatOfRect faceDetections = new MatOfRect();
-    private static Thread facethread;
-
+	private static Timer cd;
+	
 	public FaceTrackingPage() {
 		initialize();
 	}
@@ -79,7 +57,7 @@ public class FaceTrackingPage {
 		panel.add(lblNewLabel);
 		
 		countedFace = new JLabel("");
-		countedFace.setBounds(680, 0, 50, 120);
+		countedFace.setBounds(680, 0, 50, 130);
 		countedFace.setFont(new Font("Sans Serif", Font.PLAIN, 18));
 		panel.add(countedFace);
 		
@@ -93,96 +71,33 @@ public class FaceTrackingPage {
 		getFrame().add(separator);
 		
 		cd = new Timer(1000, countdown);
-
-		initTracking();
+		gazeTracking = new GazeTracking(panelFace);
+		cd.start();
 	}
 	
-	class FacetrackThread implements Runnable {
-
-        protected volatile boolean runnable = false;
-        protected volatile boolean drawing = true;
-
-        @Override
-        public void run()
-        {
-            synchronized (this)
-            {
-                while (runnable)
-                {
-                    if (getWebSource().grab())
-                    {
-                        try 
-                        {
-                            getWebSource().retrieve(frame);
-                            Graphics g = panelFace.getGraphics();
-                            faceDetector.detectMultiScale(frame, faceDetections);
-                            faceDetected = faceDetections.toArray().length;
-                            if(drawing)
-                            {
-                            	for (Rect rect : faceDetections.toArray())
-                                {
-                                	Imgproc.rectangle(frame, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
-                                            new Scalar(0, 255,0));
-                                }
-                            	if(faceDetected == 1)
-                                {
-                                	if(!cd.isRunning()) cd.start();
-                                	countedFace.setText("OK " + cdint);
-                                	countedFace.setForeground(Color.GREEN);
-                                }
-                                else
-                                {
-                                	cd.stop();
-                                	cdint = 3;
-                                	countedFace.setText("NOT OK");
-                                	countedFace.setForeground(Color.RED);
-                                }
-		                        Imgcodecs.imencode(".bmp", frame, mem);
-		                        Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
-		                        BufferedImage buff = (BufferedImage) im;
-		                        if (g.drawImage(buff, 0, 0, pane.getWidth(), pane.getHeight() , (buff.getWidth()/4), 0, buff.getWidth(), buff.getHeight(), null))
-		                        {
-		                            if (runnable == false) {
-		                                System.out.println("Paused ..... ");
-		                                this.wait();
-		                            }
-		                        }
-		                        im.flush();	       
-                            }
-                            else
-                            {
-                            	/*
-                            	if(!getUpdateDetect().isRunning())
-                            		getUpdateDetect().start();
-                            	*/
-                            	if(faceDetected != 1)
-                    				notok += 1;
-                    			else
-                    				ok += 1;
-                            	
-                            }
-                        } catch (Exception ex)
-                        {
-                            System.out.println("Error");
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-        
-    	public int getFaceDetected() {
-    		return faceDetected;
-    	}
-    }
+	
 	
 	private ActionListener countdown = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			if(cdint == 0)
+			if(gazeTracking.getFaceDetected() == 1)
+            {
+				gazeTracking.setValidateCd(gazeTracking.getValidateCd()-1);
+				countedFace.setText("OK "+ gazeTracking.getValidateCd());
+            	countedFace.setForeground(Color.GREEN);
+            }
+            else
+            {
+            	gazeTracking.setValidateCd(3);
+            	countedFace.setText("NOT OK");
+            	countedFace.setForeground(Color.RED);
+            }
+			if(gazeTracking.getValidateCd() == 0)
 			{
 				MainFrame mf = MainFrame.getMainFrame();
+				MainFrame.setGazeTracking(gazeTracking);
+				gazeTracking.setDrawing(false);
 				//FaceTrack window = new FaceTrack();
 	
 				TypeTestPage window = new TypeTestPage();
@@ -190,13 +105,10 @@ public class FaceTrackingPage {
 				mf.setContentPane(window.getFrame());
 				mf.setTitle("TypEye - Test type");
 				mf.refresh();
-				facetrackThread.drawing = false;
 				cd.stop();
 				//facethread.interrupt();
 				return;
-			}	
-			cdint--;
-			countedFace.setText("OK "+ cdint);
+			}
 		}
 	
 	};
@@ -216,40 +128,10 @@ public class FaceTrackingPage {
 		}
 	
 	};
-*/	private void initTracking()
-	{
-        webSource = new VideoCapture(0); // video capture from default cam
-        facetrackThread = new FacetrackThread(); //create object of threat class
-        facethread = new Thread(facetrackThread);
-        facethread.setDaemon(true);
-        facetrackThread.runnable = true;
-        facethread.start();
-    }
+*/	
 
 	
 	public JPanel getFrame() {
 		return pane;
-	}
-	
-	
-	public static Thread getFacethread()
-	{
-		return facethread;
-	}
-
-	public static Integer getOk() {
-		return ok;
-	}
-
-	public static Integer getNotok() {
-		return notok;
-	}
-
-	public static Timer getUpdateDetect() {
-		return updateDetect;
-	}
-
-	public static VideoCapture getWebSource() {
-		return webSource;
 	}
 }

@@ -58,7 +58,6 @@ public class MysqlMgr {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(DATABASE_URL, getProperties());
-                System.out.println("Connected");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -71,7 +70,6 @@ public class MysqlMgr {
             try {
                 connection.close();
                 connection = null;
-                System.out.println("Connection closed");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

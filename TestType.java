@@ -125,21 +125,20 @@ public class TestType
 	
 	public void terminateTest()
 	{
+		MainFrame mf = MainFrame.getMainFrame();
+		MainFrame.getGazeTracking().stop();
+		
 		input.setEnabled(false);
+		counter.feedFaceData(MainFrame.getGazeTracking().getOk(), MainFrame.getGazeTracking().getNotOk());
 		counter.prepareDataShow();
 		counter.showData();
 		counter.storeData(scriptid);
 		counter.storeDataDetails();
 		resetBtn.setSize(100, 50);
 		resetBtn.setVisible(true);
-		MainFrame mf = MainFrame.getMainFrame();
 		
 		ThanksPage window = new ThanksPage();
-		
-		FaceTrackingPage.getFacethread().interrupt();
-		FaceTrackingPage.getWebSource().release();
 		//FaceTrackingPage.getUpdateDetect().stop();
-		System.out.println("OK: " + FaceTrackingPage.getOk() + " | Not OK : " + FaceTrackingPage.getNotok());
 		window.updateResult(counter.getCorrects(), counter.getMistakes(), counter.getWPM());
 		mf.setSize(window.getFrame().getSize());
 		mf.setContentPane(window.getFrame());
