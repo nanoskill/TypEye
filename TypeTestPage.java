@@ -107,6 +107,7 @@ public class TypeTestPage
 	   		if(!timer.isRunning())
 	   		{
 	   			timer.start();
+	   			MainFrame.getGazeTracking().startDetecting();
 	   			typingTest.updateTime(duration);
 	   		}
 	   		if(e.getKeyCode() == KeyEvent.VK_SPACE && typingTest.getPane().isEmptyWord())

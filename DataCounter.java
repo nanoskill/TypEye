@@ -97,9 +97,10 @@ public class DataCounter
 		try
 		{
 			db.connect();
-			String q = "INSERT INTO `result` (`UserId`, `ScriptId`, `Correct`, `Mistakes`, `Accuracy`, `WPM`) "
+			String q = "INSERT INTO `result` (`UserId`, `ScriptId`, `Correct`, `Mistakes`, `Accuracy`, `WPM`, `eyesForward`, `eyesNotForward`) "
 					+ "VALUES ('"+ LoginPage.getUser().getDataid() +"','"
-					+ scriptid + "', '"+ corrects +"', '"+ mistakes +"', '" + getAccuracy() + "', '" + getWPM() + "')";
+					+ scriptid + "', '"+ corrects +"', '"+ mistakes +"', '" + getAccuracy() + "', '" + getWPM() + "', '" + MainFrame.getGazeTracking().getOk()
+					+ "', '" + MainFrame.getGazeTracking().getNotOk() + "')";
 			db.insert(q);
 		} catch (SQLException e)
 		{

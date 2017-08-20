@@ -26,7 +26,7 @@ public class MainFrame extends JFrame{
 		mainFrame.setVisible(true);
 		
 		AdminLogin window = new AdminLogin();
-
+		
 		mainFrame.setContentPane(window.getFrame());
 		mainFrame.setSize(window.getFrame().getSize());
 		mainFrame.setTitle("TypEye Admin - Login");

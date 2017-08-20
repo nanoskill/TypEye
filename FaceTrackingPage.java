@@ -57,22 +57,21 @@ public class FaceTrackingPage {
 		panel.add(lblNewLabel);
 		
 		countedFace = new JLabel("");
-		countedFace.setBounds(680, 0, 50, 130);
+		countedFace.setBounds(680, 0, 120, 50);
 		countedFace.setFont(new Font("Sans Serif", Font.PLAIN, 18));
 		panel.add(countedFace);
 		
 		panelFace = new JPanel();
 		panelFace.setBorder(new LineBorder(Color.GRAY));
 		panelFace.setBounds(154, 88, 492, 447);
-		getFrame().add(panelFace);
+		pane.add(panelFace);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 60, 800, 6);
-		getFrame().add(separator);
+		pane.add(separator);
 		
 		cd = new Timer(1000, countdown);
-		gazeTracking = new GazeTracking(panelFace);
-		cd.start();
+		gazeTracking = new GazeTracking(panelFace, countedFace, cd);
 	}
 	
 	
@@ -81,25 +80,14 @@ public class FaceTrackingPage {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			if(gazeTracking.getFaceDetected() == 1)
-            {
-				gazeTracking.setValidateCd(gazeTracking.getValidateCd()-1);
-				countedFace.setText("OK "+ gazeTracking.getValidateCd());
-            	countedFace.setForeground(Color.GREEN);
-            }
-            else
-            {
-            	gazeTracking.setValidateCd(3);
-            	countedFace.setText("NOT OK");
-            	countedFace.setForeground(Color.RED);
-            }
+
 			if(gazeTracking.getValidateCd() == 0)
 			{
 				MainFrame mf = MainFrame.getMainFrame();
 				MainFrame.setGazeTracking(gazeTracking);
 				gazeTracking.setDrawing(false);
 				//FaceTrack window = new FaceTrack();
-	
+
 				TypeTestPage window = new TypeTestPage();
 				mf.setSize(window.getFrame().getSize());
 				mf.setContentPane(window.getFrame());
@@ -109,6 +97,7 @@ public class FaceTrackingPage {
 				//facethread.interrupt();
 				return;
 			}
+			gazeTracking.setValidateCd(gazeTracking.getValidateCd()-1);
 		}
 	
 	};

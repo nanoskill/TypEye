@@ -19,6 +19,8 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -44,6 +46,7 @@ public class LoginPage{
 		frame = new JPanel(new BorderLayout());
 		getFrame().setBounds(100, 100, 800, 600);
 		getFrame().setSize(new Dimension(800, 600));
+		frame.addComponentListener(reqFocus);
 		
 		JPanel panel = new JPanel();
 		frame.add(panel, BorderLayout.CENTER);
@@ -61,6 +64,7 @@ public class LoginPage{
 		panel_1.add(btnLogin);
 		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 17));
 		btnLogin.addActionListener(login);
+		userIdField.addKeyListener(enter);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(68, 117, 54, 15);
@@ -115,6 +119,33 @@ public class LoginPage{
 		lblNewLabel.setBounds(294, 40, 212, 137);
 		panel.add(lblNewLabel);
 	}
+	
+	private ComponentListener reqFocus = new ComponentListener() {
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentResized(ComponentEvent arg0) {
+			userNameField.requestFocus();			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
 	
 	private KeyListener enter = new KeyListener() {
 
@@ -172,7 +203,6 @@ public class LoginPage{
 			while(rs.next())
 			{
 				user.setDataid(rs.getInt("id"));
-				System.out.println(rs.getInt("id"));
 				rowcount++;
 			}
 			rs.close();
