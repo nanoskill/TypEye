@@ -19,6 +19,8 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +72,7 @@ public class LoginPage{
 		userIdField.setBounds(192, 117, 200, 22);
 		panel_1.add(userIdField);
 		userIdField.setColumns(10);
+		userIdField.addKeyListener(enter);
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(68, 57, 54, 15);
@@ -81,6 +84,7 @@ public class LoginPage{
 		userNameField.setBounds(192, 57, 200, 22);
 		panel_1.add(userNameField);
 		userNameField.setColumns(10);
+		userNameField.addKeyListener(enter);
 		
 		JLabel label = new JLabel(":");
 		label.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -112,6 +116,28 @@ public class LoginPage{
 		panel.add(lblNewLabel);
 	}
 	
+	private KeyListener enter = new KeyListener() {
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+				login.actionPerformed(null);
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
+	
 	private ActionListener login = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e) {
@@ -123,12 +149,12 @@ public class LoginPage{
 			else
 			{
 				MainFrame mf = MainFrame.getMainFrame();
-				//FaceTrack window = new FaceTrack();
+				FaceTrackingPage window = new FaceTrackingPage();
 	
-				TypeTestPage window = new TypeTestPage();
+				//TypeTestPage window = new TypeTestPage();
 				mf.setSize(window.getFrame().getSize());
 				mf.setContentPane(window.getFrame());
-				mf.setTitle("TypEye - Test type");
+				mf.setTitle("TypEye - Gaze tracking");
 				mf.refresh();
 			}
 		}

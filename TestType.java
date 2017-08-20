@@ -58,8 +58,8 @@ public class TestType
 			while(rs.next())
 			{
 				inp = rs.getString("script");
-				//elapsed = rs.getInt("duration");
-				elapsed = 3;
+				elapsed = rs.getInt("duration");
+				//elapsed = 3;
 			}
 			rs.close();
 		} catch (SQLException e)
@@ -135,6 +135,11 @@ public class TestType
 		MainFrame mf = MainFrame.getMainFrame();
 		
 		ThanksPage window = new ThanksPage();
+		
+		FaceTrackingPage.getFacethread().interrupt();
+		FaceTrackingPage.getWebSource().release();
+		//FaceTrackingPage.getUpdateDetect().stop();
+		System.out.println("OK: " + FaceTrackingPage.getOk() + " | Not OK : " + FaceTrackingPage.getNotok());
 		window.updateResult(counter.getCorrects(), counter.getMistakes(), counter.getWPM());
 		mf.setSize(window.getFrame().getSize());
 		mf.setContentPane(window.getFrame());

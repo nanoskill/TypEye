@@ -98,6 +98,7 @@ public class DataCounter
 					+ "VALUES ('"+ LoginPage.getUser().getDataid() +"','"
 					+ scriptid + "', '"+ corrects +"', '"+ mistakes +"', '" + getAccuracy() + "', '" + getWPM() + "')";
 			db.insert(q);
+			System.out.println(getAccuracy());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -132,7 +133,7 @@ public class DataCounter
 	}
 	public float getAccuracy()
 	{
-		return corrects / (corrects + mistakes);
+		return (float)corrects / (float)(corrects + mistakes);
 	}
 
 	public String getDataShow() {
